@@ -27,7 +27,6 @@
     --grad-text: linear-gradient(to right, #0ea5e9, #6366f1);
     /* Cyan to Indigo gradient */
 
-   
     /* Typography */
     --font-main: 'Outfit', sans-serif;
 
@@ -910,17 +909,6 @@ input:checked+.slider:before {
     color: #64748B;
 }
 
-.footer-links a {
-    display: block;
-    margin-bottom: 10px;
-    text-decoration: none;
-    color: #475569; /* Or any color you prefer */
-}
-
-.footer-links a:hover {
-    text-decoration: underline;
-}
-
 /* =========================================
    Animations
    ========================================= */
@@ -962,5 +950,4 @@ input:checked+.slider:before {
 .reveal-on-scroll.is-visible {
     opacity: 1;
     transform: translateY(0);
-
 }
