@@ -3,6 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
+    <!-- Consent Management Platform -->
+    <script type="text/javascript" data-cmp-ab="1"
+        src="https://cdn.consentmanager.net/delivery/autoblocking/3302ac9a12634.js"
+        data-cmp-host="c.delivery.consentmanager.net" data-cmp-cdn="cdn.consentmanager.net"
+        data-cmp-codesrc="0"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Check-iN | AI-Powered Healthcare Assistant & Safety Monitor for Seniors</title>
     <meta name="description"
@@ -28,8 +34,10 @@
             <nav class="desktop-nav">
                 <a href="#features">Features</a>
                 <a href="#how-it-works">How it Works</a>
+                <a href="#guardian-portal">Guardian Portal</a>
                 <a href="#hardware">Smart Ring</a>
                 <a href="#pricing">Pricing</a>
+                <a href="#faq">FAQ</a>
             </nav>
             <div class="header-cta">
                 <a href="#pricing" class="btn btn-primary btn-small">Get Protected</a>
@@ -117,76 +125,133 @@
             </div>
 
             <div class="features-grid">
-                <!-- Health Tools -->
+                <!-- AI Health Suite -->
                 <div class="feature-block reveal-on-scroll">
                     <div class="feature-text">
-                        <div class="tag">AI Health Tools</div>
-                        <h2>Understand Their Health Instantly</h2>
+                        <div class="tag">AI Health Suite</div>
+                        <h2>Clinical-Grade Intelligence at Home</h2>
                         <ul class="feature-list">
-                            <li><span class="material-symbols-outlined">document_scanner</span> <strong>AI Document
-                                    Analyzer:</strong> Instantly understand X-rays, lab reports, and complex
-                                prescriptions.</li>
-                            <li><span class="material-symbols-outlined">medical_information</span> <strong>Symptom
-                                    Checker:</strong> AI chat for safe symptom assessment with proactive emergency
-                                warnings.</li>
-                            <li><span class="material-symbols-outlined">video_camera_front</span> <strong>Face Scan
-                                    Vitals:</strong> Measure heart rate, respiratory rate, and hydration using just the
-                                phone camera.</li>
+                            <li><span class="material-symbols-outlined">face</span> <strong>rPPG Face Scan:</strong>
+                                Estimate heart rate, respiratory rate, and HRV using a 30-second video of your face.
+                            </li>
+                            <li><span class="material-symbols-outlined">document_scanner</span> <strong>ProDoc
+                                    Analyzer:</strong> Instantly decode X-rays, lab reports, and prescriptions into
+                                easy-to-understand summaries.</li>
+                            <li><span class="material-symbols-outlined">video_chat</span> <strong>Tele-Consult
+                                    AI:</strong> Record consultations to generate structured transcripts, symptom lists,
+                                and automated medical summaries.</li>
                         </ul>
                     </div>
                     <div class="feature-visual border-radius-lg">
-                        <img src="assets/feature_health_tools.png"
-                            alt="Abstract high-tech AI health analysis illustration"
+                        <img src="assets/feature_health_tools.png" alt="Advanced AI health diagnostics illustration"
                             style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
                     </div>
                 </div>
 
-                <!-- Medication Management -->
+                <!-- Medication & Safety -->
                 <div class="feature-block reverse reveal-on-scroll">
                     <div class="feature-text">
-                        <div class="tag">Medication Management</div>
-                        <h2>Never Miss a Dose Again</h2>
+                        <div class="tag">Smart Safety & Meds</div>
+                        <h2>Absolute Adherence & Security</h2>
                         <ul class="feature-list">
-                            <li><span class="material-symbols-outlined">pill</span> <strong>Med Tracker &
-                                    Alarms:</strong> Track adherence and set fail-proof reminders.</li>
-                            <li><span class="material-symbols-outlined">document_scanner</span> <strong>Smart
-                                    Prescription Scanner:</strong> OCR technology to auto-import medicines directly from
-                                photos.</li>
-                            <li><span class="material-symbols-outlined">savings</span> <strong>20-40% Cost
-                                    Savings:</strong> Discover AI-suggested bioequivalent alternatives and save
-                                significantly on prescriptions. Includes banned medicine alerts.</li>
+                            <li><span class="material-symbols-outlined">pill</span> <strong>Banned Medicine
+                                    Check:</strong> Automatically cross-references meds against national registries and
+                                suggests bioequivalent alternatives.</li>
+                            <li><span class="material-symbols-outlined">heart_check</span> <strong>Daily Vitality
+                                    Loop:</strong> Configurable check-ins (7 AM, 12 PM, 7 PM) with "Silent Consent"
+                                guardian nomination.</li>
+                            <li><span class="material-symbols-outlined">lock_reset</span> <strong>Secret Vault:</strong>
+                                Secure, encrypted storage for sensitive documents, accessible only by verified vault
+                                nominees.</li>
                         </ul>
                     </div>
                     <div class="feature-visual border-radius-lg">
-                        <img src="assets/feature_medication.png" alt="Sleek pill organizer with glowing tech checkmark"
+                        <img src="assets/feature_medication.png" alt="Secure medical monitoring and safety tech"
                             style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
                     </div>
                 </div>
 
-                <!-- Security & Profile -->
+                <!-- Wellness & Gamification -->
                 <div class="feature-block reveal-on-scroll">
                     <div class="feature-text">
-                        <div class="tag">Security & Privacy</div>
-                        <h2>Top-Tier Data Protection</h2>
+                        <div class="tag">Wellness & Rewards</div>
+                        <h2>Health isn't just a Score, it's a Journey</h2>
                         <ul class="feature-list">
-                            <li><span class="material-symbols-outlined">lock</span> <strong>Secret Vault:</strong>
-                                Securely store important documents, passwords, emails, and create a legal will.
-                                Nominated guardians can access these securely based on your defined guidelines.</li>
-                            <li><span class="material-symbols-outlined">g_translate</span>
-                                <strong>Multi-Language:</strong> Fully accessible in English, Hindi, Marathi, Tamil,
-                                Kannada, Malayalam, Bengali & more.
-                            </li>
-                            <li><span class="material-symbols-outlined">verified_user</span> <strong>Maximum
-                                    Privacy:</strong> Fully GDPR & DPDPA compliant with total data export controls.</li>
+                            <li><span class="material-symbols-outlined">analytics</span> <strong>Wellness Score
+                                    (0-100):</strong> AI-powered health assessment based on vitals, activity, and face
+                                scan data.</li>
+                            <li><span class="material-symbols-outlined">military_tech</span> <strong>XP &
+                                    Badges:</strong> Earn XP for daily checks and level up from "Beginner" to "Wellness
+                                Legend" with 15+ unlockable badges.</li>
+                            <li><span class="material-symbols-outlined">redeem</span> <strong>Loyalty Rewards:</strong>
+                                Convert wellness adherence and step counts into real-world loyalty points.</li>
                         </ul>
+                        <div class="wellness-badge-container">
+                            <span class="xp-badge"><span class="material-symbols-outlined">monitoring</span> 92 Wellness
+                                Score</span>
+                            <span class="xp-badge"><span class="material-symbols-outlined">workspace_premium</span> Gold
+                                Badge</span>
+                        </div>
                     </div>
                     <div class="feature-visual border-radius-lg">
-                        <img src="assets/feature_security.png"
-                            alt="Glowing abstract shield and secret vault illustration"
+                        <img src="assets/feature_security.png" alt="Gamified health progress and rewards illustration"
                             style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Guardian Portal Teaser -->
+    <section id="guardian-portal" class="section">
+        <div class="container">
+            <div class="guardian-portal-teaser reveal-on-scroll">
+                <div class="portal-grid">
+                    <div class="portal-content">
+                        <div class="tag" style="background: rgba(255,255,255,0.1); color: #60a5fa;">The Guardian Network
+                        </div>
+                        <h2 class="text-white">They're Never Alone.</h2>
+                        <p style="color: #94a3b8;">The Guardian Portal is a real-time command center for families.
+                            Monitor vitals, track SOS alerts, and receive "Silent Consent" notifications with absolute
+                            privacy.</p>
+                        <ul class="feature-list" style="color: #cbd5e1;">
+                            <li style="color: inherit;"><span class="material-symbols-outlined"
+                                    style="background: rgba(255,255,255,0.05);">flash_on</span> <strong>Flash
+                                    Calls:</strong> Instant connection during high-priority alerts.</li>
+                            <li style="color: inherit;"><span class="material-symbols-outlined"
+                                    style="background: rgba(255,255,255,0.05);">pedometer</span> <strong>Vitals
+                                    Mirror:</strong> View real-time HR/SpO2 if shared by the user.</li>
+                            <li style="color: inherit;"><span class="material-symbols-outlined"
+                                    style="background: rgba(255,255,255,0.05);">history</span> <strong>72h
+                                    Auto-Delete:</strong> SOS logs and sensitive data are purged for maximum privacy.
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="dashboard-mockup">
+                        <div class="mockup-header">
+                            <span class="status-badge online">Live Monitoring</span>
+                            <span class="material-symbols-outlined">more_vert</span>
+                        </div>
+                        <div class="mockup-vitals">
+                            <div class="vital-mini-card">
+                                <span class="vital-val" style="color: #10b981;">72</span>
+                                <span class="vital-label">BPM</span>
+                            </div>
+                            <div class="vital-mini-card">
+                                <span class="vital-val" style="color: #0ea5e9;">98%</span>
+                                <span class="vital-label">SpO2</span>
+                            </div>
+                            <div class="vital-mini-card">
+                                <span class="vital-val" style="color: #f59e0b;">120/80</span>
+                                <span class="vital-label">BP</span>
+                            </div>
+                            <div class="vital-mini-card">
+                                <span class="vital-val" style="color: #ef4444;">12,4k</span>
+                                <span class="vital-label">Steps</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -231,7 +296,7 @@
                 <div class="pricing-card">
                     <h3 class="plan-name">Basic Plan</h3>
                     <div class="price-block">
-                        <span class="currency"> ₹ </span>
+                        <span class="currency">Rs.</span>
                         <span class="price" data-monthly="99" data-yearly="999">999</span>
                         <span class="duration" data-monthly="/mo" data-yearly="/yr">/yr</span>
                     </div>
@@ -255,7 +320,7 @@
                     <div class="popular-tag">Most Popular</div>
                     <h3 class="plan-name">Premium Plan</h3>
                     <div class="price-block">
-                        <span class="currency"> ₹</span>
+                        <span class="currency">Rs.</span>
                         <span class="price" data-monthly="199" data-yearly="1999">1999</span>
                         <span class="duration" data-monthly="/mo" data-yearly="/yr">/yr</span>
                     </div>
@@ -281,7 +346,80 @@
                 <p>Limited price offer @30% discount for early subscribers.</p>
                 <p><small class="text-muted">Requires Premium Plan. Ships Q3 2026.</small></p>
             </div>
-               
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section bg-soft-blue">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="tag">Common Questions</div>
+                <h2>Everything You Need to Know</h2>
+                <p>Transparent answers about safety, privacy, and how My Health Companion works for your family.</p>
+            </div>
+            <div class="faq-grid reveal-on-scroll">
+                <!-- Check-In -->
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What is the Daily Check-In feature?
+                        <span class="material-symbols-outlined">expand_more</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Daily Check-In is a safety feature where you confirm you're okay at scheduled times (7 AM, 12
+                            PM, 7 PM). Tap the beating heart on your dashboard. If multiple check-ins are missed,
+                            nominated guardians are automatically alerted with your location and medical vitals.</p>
+                    </div>
+                </div>
+                <!-- Guardians -->
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How does "Silent Consent" for Guardians work?
+                        <span class="material-symbols-outlined">expand_more</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>When you nominate a guardian, they receive a secure invitation. They have a one-hour window
+                            to reject the nomination. If they don't, they are automatically accepted into your network.
+                            This ensures you're never without a primary emergency contact during setup.</p>
+                    </div>
+                </div>
+                <!-- Privacy -->
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is my health data private from my Guardians?
+                        <span class="material-symbols-outlined">expand_more</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes. Guardian access is strictly limited to emergency-relevant data (blood type, allergies,
+                            conditions). Sensitive personal documents and chronic health metrics are hidden and only
+                            shared if you specifically grant "Vault Access" to a nominee.</p>
+                    </div>
+                </div>
+                <!-- AI Tools -->
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What is a Face Scan (Vitals Scan)?
+                        <span class="material-symbols-outlined">expand_more</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Using rPPG technology, our AI estimates Heart Rate (BPM), Respiratory Rate, and HRV from a
+                            simple 30-second video of your face. No wearable hardware is required for these basic
+                            vitals.</p>
+                    </div>
+                </div>
+                <!-- Wellness Score -->
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How is the Wellness Score calculated?
+                        <span class="material-symbols-outlined">expand_more</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>The score (0-100) analyzes your vitals against standard medical reference ranges. It
+                            incorporates Blood Pressure, SpO2, Heart Rate, and activity levels to give you a daily
+                            "Snapshot" of your overall well-being.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Footer -->
@@ -303,7 +441,6 @@
                 </div>
                 <div class="link-col">
                     <h4>Legal</h4>
-
                     <a href="https://drive.google.com/file/d/1facmn0XHT8RXXUIyClodPbqMDcaYP-1h/view?usp=sharing"
                         target="_blank" rel="noopener">Privacy Policy</a>
                     <a href="https://drive.google.com/file/d/15dinH7ljCb8FooHwvIpQXrE9MdouHgz1/view?usp=drive_link"
@@ -312,7 +449,8 @@
                         target="_blank" rel="noopener">FAQ's</a>
                     <a href="#">GDPR & DPDPA</a>
                 </div>
-              
+            </div>
+        </div>
         <div class="container footer-bottom">
             <p>&copy; 2026 Check-iN. All rights reserved.</p>
         </div>
@@ -321,9 +459,4 @@
     <script src="script.js"></script>
 </body>
 
-
 </html>
-
-
-
-
