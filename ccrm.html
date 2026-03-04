@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCRM - Chronic Care Management Dashboard | My Health Companion</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <!-- Material Icons -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* CCRM Specific Overrides */
+        body {
+            background: #f8fafc;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .ccrm-sidebar {
+            width: 260px;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 0;
+        }
+
+        .sidebar-brand {
+            padding: 0 2rem 2rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            color: #60a5fa;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-nav {
+            flex-grow: 1;
+            padding: 1.5rem 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 2rem;
+            color: #94a3b8;
+            text-decoration: none;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-left: 4px solid #60a5fa;
+        }
+
+        .nav-item .material-symbols-outlined {
+            font-size: 20px;
+        }
+
+        .ccrm-main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .ccrm-header {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-search {
+            display: flex;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            width: 300px;
+        }
+
+        .header-search input {
+            border: none;
+            background: transparent;
+            outline: none;
+            margin-left: 0.5rem;
+            width: 100%;
+            color: #475569;
+        }
+
+        .ccrm-content {
+            padding: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        .dashboard-header p {
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon.blue {
+            background: #eff6ff;
+            color: #3b82f6;
+        }
+
+        .stat-icon.green {
+            background: #ecfdf5;
+            color: #10b981;
+        }
+
+        .stat-icon.red {
+            background: #fef2f2;
+            color: #ef4444;
+        }
+
+        .stat-val {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #0f172a;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Patient Table */
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .ccrm-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .ccrm-table th {
+            background: #f8fafc;
+            padding: 1rem 1.5rem;
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .ccrm-table td {
+            padding: 1.25rem 1.5rem;
+            border-top: 1px solid #f1f5f9;
+            font-size: 0.875rem;
+        }
+
+        .patient-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .patient-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .patient-name {
+            font-weight: 600;
+            color: #0f172a;
+            display: block;
+        }
+
+        .status-badge-mini {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge-mini.online {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-badge-mini.offline {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        /* Floating SOS Panel */
+        .sos-panel {
+            background: #fef2f2;
+            border: 1px solid #fee2e2;
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .active-sos .sos-panel {
+            display: flex;
+            border-left: 4px solid #ef4444;
+        }
+    </style>
+</head>
+
+<body class="active-sos">
+    <!-- Sidebar -->
+    <aside class="ccrm-sidebar">
+        <div class="sidebar-brand">Check-iN CCRM</div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active"><span class="material-symbols-outlined">dashboard</span> Dashboard</a>
+            <a href="#" class="nav-item"><span class="material-symbols-outlined">group</span> Patients</a>
+            <a href="#" class="nav-item"><span class="material-symbols-outlined">pending_actions</span> Care Tasks</a>
+            <a href="#" class="nav-item"><span class="material-symbols-outlined">medical_information</span> Health
+                Logs</a>
+            <a href="#" class="nav-item"><span class="material-symbols-outlined">event</span> Schedule</a>
+            <a href="#" class="nav-item"><span class="material-symbols-outlined">chat</span> Messaging</a>
+        </nav>
+        <div class="sidebar-footer" style="padding: 2rem;">
+            <a href="index.html" class="nav-item" style="padding: 0; color: #60a5fa;"><span
+                    class="material-symbols-outlined">arrow_back</span> Main Site</a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ccrm-main">
+        <header class="ccrm-header">
+            <div class="header-search">
+                <span class="material-symbols-outlined">search</span>
+                <input type="text" placeholder="Find patient, med or report...">
+            </div>
+            <div class="header-user" style="display: flex; align-items: center; gap: 1rem;">
+                <span class="material-symbols-outlined" style="color: #64748b;">notifications</span>
+                <div style="text-align: right;">
+                    <div style="font-weight: 600; font-size: 0.875rem;">Dr. Arjun K.</div>
+                    <div style="font-size: 0.75rem; color: #64748b;">Case Manager</div>
+                </div>
+                <div class="patient-avatar" style="background: #e0f2fe; color: #0ea5e9;">AK</div>
+            </div>
+        </header>
+
+        <section class="ccrm-content">
+            <div class="dashboard-header">
+                <h1>Overview Dashboard</h1>
+                <p>Monitor your active patients and respond to critical alerts.</p>
+            </div>
+
+            <!-- Active SOS Alert Panel -->
+            <div class="sos-panel">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span class="material-symbols-outlined"
+                        style="color: #ef4444; font-variation-settings: 'FILL' 1;">warning</span>
+                    <div>
+                        <div style="font-weight: 700; color: #b91c1c;">ACTIVE SOS ALERT: Mrs. Savita Sharma</div>
+                        <div style="font-size: 0.875rem; color: #991b1b;">Triggered 2 mins ago • Location: Sector 45,
+                            Gurgaon</div>
+                    </div>
+                </div>
+                <button class="btn btn-primary"
+                    style="background: #ef4444; border: none; padding: 0.6rem 1.25rem;">Resolve Now</button>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue"><span class="material-symbols-outlined">group</span></div>
+                    <div class="stat-val">12</div>
+                    <div class="stat-label">Total Patients</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon red"><span class="material-symbols-outlined">emergency</span></div>
+                    <div class="stat-val">1</div>
+                    <div class="stat-label">Active Emergencies</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green"><span class="material-symbols-outlined">task_alt</span></div>
+                    <div class="stat-val">84%</div>
+                    <div class="stat-label">Avg. Med Adherence</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon blue"><span class="material-symbols-outlined">trending_up</span></div>
+                    <div class="stat-val">92%</div>
+                    <div class="stat-label">Check-in Compliance</div>
+                </div>
+            </div>
+
+            <!-- Recent Patients Table -->
+            <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+                <div>
+                    <h2 style="font-family: 'Outfit'; font-size: 1.4rem;">Patient Status Monitor</h2>
+                    <p style="font-size: 0.875rem;">Real-time vitality and check-in status.</p>
+                </div>
+                <a href="#" style="color: #3b82f6; text-decoration: none; font-weight: 600; font-size: 0.875rem;">View
+                    All Patients →</a>
+            </div>
+
+            <div class="table-container">
+                <table class="ccrm-table">
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Status</th>
+                            <th>Vitals (Current)</th>
+                            <th>Meds</th>
+                            <th>Next Appt.</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="patient-info">
+                                    <div class="patient-avatar">SS</div>
+                                    <div>
+                                        <span class="patient-name">Savita Sharma</span>
+                                        <span style="color: #64748b; font-size: 0.75rem;">ID: #9021</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge-mini online"><span class="material-symbols-outlined"
+                                        style="font-size: 14px;">fiber_manual_record</span> SOS Active</span></td>
+                            <td><span style="color: #ef4444; font-weight: 600;">HR 112 • SpO2 93%</span></td>
+                            <td><span style="color: #64748b;">4/6 Taken</span></td>
+                            <td>Today, 4:00 PM</td>
+                            <td><button class="btn btn-primary btn-small">Open Hub</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="patient-info">
+                                    <div class="patient-avatar" style="background: #fdf2f8; color: #db2777;">RK</div>
+                                    <div>
+                                        <span class="patient-name">Rajesh Kumar</span>
+                                        <span style="color: #64748b; font-size: 0.75rem;">ID: #8843</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge-mini online"
+                                    style="background: #eff6ff; color: #1e40af;"><span class="material-symbols-outlined"
+                                        style="font-size: 14px;">fiber_manual_record</span> Stable</span></td>
+                            <td>HR 74 • SpO2 98%</td>
+                            <td><span style="color: #059669; font-weight: 600;">ALL TAKEN</span></td>
+                            <td>7 Mar, 2026</td>
+                            <td><button class="btn btn-primary btn-small">Open Hub</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="patient-info">
+                                    <div class="patient-avatar" style="background: #f0fdf4; color: #16a34a;">MP</div>
+                                    <div>
+                                        <span class="patient-name">Meera Patel</span>
+                                        <span style="color: #64748b; font-size: 0.75rem;">ID: #7721</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge-mini offline"><span class="material-symbols-outlined"
+                                        style="font-size: 14px;">fiber_manual_record</span> Offline</span></td>
+                            <td>HR 82 • SpO2 96%</td>
+                            <td>2/5 Taken</td>
+                            <td>12 Mar, 2026</td>
+                            <td><button class="btn btn-primary btn-small">Open Hub</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
