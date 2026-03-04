@@ -1127,3 +1127,66 @@ input:checked+.slider:before {
         order: 2;
     }
 }
+
+/* =========================================
+   CCRM Dashboard Components
+   ========================================= */
+.ccrm-sidebar {
+    transition: all 0.3s ease;
+}
+
+.stat-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.ccrm-table tr:hover td {
+    background-color: #f1f5f9;
+}
+
+.sos-panel {
+    animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+    0% {
+        border-color: #fee2e2;
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.1);
+    }
+
+    50% {
+        border-color: #ef4444;
+        box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.05);
+    }
+
+    100% {
+        border-color: #fee2e2;
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.1);
+    }
+}
+
+.patient-avatar {
+    user-select: none;
+}
+
+/* Scrollbar styling for dashboard */
+.ccrm-main::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ccrm-main::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.ccrm-main::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.ccrm-main::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}

@@ -123,4 +123,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    /* =========================================
+       CCRM Dashboard Interactivity
+       ========================================= */
+    const resolveSosBtn = document.querySelector('.sos-panel .btn');
+    if (resolveSosBtn) {
+        resolveSosBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to resolve this SOS alert? All guardians will be notified.')) {
+                document.body.classList.remove('active-sos');
+                alert('SOS Alert Resolved. Notification sent to primary guardian.');
+            }
+        });
+    }
+
+    // Simple Patient Search Filter
+    const searchInput = document.querySelector('.header-search input');
+    const patientRows = document.querySelectorAll('.ccrm-table tbody tr');
+
+    if (searchInput && patientRows.length > 0) {
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            patientRows.forEach(row => {
+                const name = row.querySelector('.patient-name').textContent.toLowerCase();
+                const id = row.querySelector('span[style*="font-size: 0.75rem"]').textContent.toLowerCase();
+                if (name.includes(term) || id.includes(term)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
 });
