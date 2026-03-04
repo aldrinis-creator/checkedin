@@ -281,166 +281,207 @@
 </head>
 
 <body class="active-sos">
-    <!-- Sidebar -->
-    <aside class="ccrm-sidebar">
-        <div class="sidebar-brand">Check-iN CCRM</div>
-        <nav class="sidebar-nav">
-            <a href="#" class="nav-item active"><span class="material-symbols-outlined">dashboard</span> Dashboard</a>
-            <a href="#" class="nav-item"><span class="material-symbols-outlined">group</span> Patients</a>
-            <a href="#" class="nav-item"><span class="material-symbols-outlined">pending_actions</span> Care Tasks</a>
-            <a href="#" class="nav-item"><span class="material-symbols-outlined">medical_information</span> Health
-                Logs</a>
-            <a href="#" class="nav-item"><span class="material-symbols-outlined">event</span> Schedule</a>
-            <a href="#" class="nav-item"><span class="material-symbols-outlined">chat</span> Messaging</a>
-        </nav>
-        <div class="sidebar-footer" style="padding: 2rem;">
-            <a href="index.html" class="nav-item" style="padding: 0; color: #60a5fa;"><span
-                    class="material-symbols-outlined">arrow_back</span> Main Site</a>
+    <!-- Login Gate Overlay -->
+    <div id="ccrm-login-gate">
+        <div class="login-form-container">
+            <div class="stat-icon blue" style="margin: 0 auto 1.5rem;"><span class="material-symbols-outlined"
+                    style="font-size: 32px;">lock</span></div>
+            <h2>Caregiver Access</h2>
+            <p>Please enter your credentials to access the Chronic Care Management portal.</p>
+
+            <div id="login-error-msg" class="login-error">Invalid username or password.</div>
+
+            <div class="form-group">
+                <label for="username">Admin Username</label>
+                <input type="text" id="username" placeholder="Enter username">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="••••••••">
+            </div>
+
+            <button id="ccrm-login-btn" class="btn btn-primary"
+                style="width: 100%; padding: 1rem; font-size: 1rem;">Unlock Dashboard</button>
+            <div style="margin-top: 1.5rem;">
+                <a href="index.html" style="color: #64748b; font-size: 0.875rem; text-decoration: none;">← Return to
+                    main
+                    site</a>
+            </div>
         </div>
-    </aside>
+    </div>
 
-    <!-- Main Content -->
-    <main class="ccrm-main">
-        <header class="ccrm-header">
-            <div class="header-search">
-                <span class="material-symbols-outlined">search</span>
-                <input type="text" placeholder="Find patient, med or report...">
+    <!-- Authenticated Content Container -->
+    <div class="authenticated-only" style="width: 100%; height: 100vh;">
+        <!-- Sidebar -->
+        <aside class="ccrm-sidebar">
+            <div class="sidebar-brand">Check-iN CCRM</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active"><span class="material-symbols-outlined">dashboard</span>
+                    Dashboard</a>
+                <a href="#" class="nav-item"><span class="material-symbols-outlined">group</span> Patients</a>
+                <a href="#" class="nav-item"><span class="material-symbols-outlined">pending_actions</span> Care
+                    Tasks</a>
+                <a href="#" class="nav-item"><span class="material-symbols-outlined">medical_information</span> Health
+                    Logs</a>
+                <a href="#" class="nav-item"><span class="material-symbols-outlined">event</span> Schedule</a>
+                <a href="#" class="nav-item"><span class="material-symbols-outlined">chat</span> Messaging</a>
+            </nav>
+            <div class="sidebar-footer" style="padding: 2rem;">
+                <a href="#" id="ccrm-logout-btn" class="nav-item" style="padding: 0; color: #f87171;"><span
+                        class="material-symbols-outlined">logout</span> Logout</a>
             </div>
-            <div class="header-user" style="display: flex; align-items: center; gap: 1rem;">
-                <span class="material-symbols-outlined" style="color: #64748b;">notifications</span>
-                <div style="text-align: right;">
-                    <div style="font-weight: 600; font-size: 0.875rem;">Dr. Arjun K.</div>
-                    <div style="font-size: 0.75rem; color: #64748b;">Case Manager</div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="ccrm-main">
+            <header class="ccrm-header">
+                <div class="header-search">
+                    <span class="material-symbols-outlined">search</span>
+                    <input type="text" placeholder="Find patient, med or report...">
                 </div>
-                <div class="patient-avatar" style="background: #e0f2fe; color: #0ea5e9;">AK</div>
-            </div>
-        </header>
+                <div class="header-user" style="display: flex; align-items: center; gap: 1rem;">
+                    <span class="material-symbols-outlined" style="color: #64748b;">notifications</span>
+                    <div style="text-align: right;">
+                        <div style="font-weight: 600; font-size: 0.875rem;">Dr. Arjun K.</div>
+                        <div style="font-size: 0.75rem; color: #64748b;">Case Manager</div>
+                    </div>
+                    <div class="patient-avatar" style="background: #e0f2fe; color: #0ea5e9;">AK</div>
+                </div>
+            </header>
 
-        <section class="ccrm-content">
-            <div class="dashboard-header">
-                <h1>Overview Dashboard</h1>
-                <p>Monitor your active patients and respond to critical alerts.</p>
-            </div>
+            <section class="ccrm-content">
+                <div class="dashboard-header">
+                    <h1>Overview Dashboard</h1>
+                    <p>Monitor your active patients and respond to critical alerts.</p>
+                </div>
 
-            <!-- Active SOS Alert Panel -->
-            <div class="sos-panel">
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span class="material-symbols-outlined"
-                        style="color: #ef4444; font-variation-settings: 'FILL' 1;">warning</span>
-                    <div>
-                        <div style="font-weight: 700; color: #b91c1c;">ACTIVE SOS ALERT: Mrs. Savita Sharma</div>
-                        <div style="font-size: 0.875rem; color: #991b1b;">Triggered 2 mins ago • Location: Sector 45,
-                            Gurgaon</div>
+                <!-- Active SOS Alert Panel -->
+                <div class="sos-panel">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="material-symbols-outlined"
+                            style="color: #ef4444; font-variation-settings: 'FILL' 1;">warning</span>
+                        <div>
+                            <div style="font-weight: 700; color: #b91c1c;">ACTIVE SOS ALERT: Mrs. Savita Sharma</div>
+                            <div style="font-size: 0.875rem; color: #991b1b;">Triggered 2 mins ago • Location: Sector
+                                45,
+                                Gurgaon</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary resolve-sos-btn"
+                        style="background: #ef4444; border: none; padding: 0.6rem 1.25rem;">Resolve Now</button>
+                </div>
+
+                <!-- Stats Overview -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><span class="material-symbols-outlined">group</span></div>
+                        <div class="stat-val">12</div>
+                        <div class="stat-label">Total Patients</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red"><span class="material-symbols-outlined">emergency</span></div>
+                        <div class="stat-val">1</div>
+                        <div class="stat-label">Active Emergencies</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green"><span class="material-symbols-outlined">task_alt</span></div>
+                        <div class="stat-val">84%</div>
+                        <div class="stat-label">Avg. Med Adherence</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><span class="material-symbols-outlined">trending_up</span></div>
+                        <div class="stat-val">92%</div>
+                        <div class="stat-label">Check-in Compliance</div>
                     </div>
                 </div>
-                <button class="btn btn-primary"
-                    style="background: #ef4444; border: none; padding: 0.6rem 1.25rem;">Resolve Now</button>
-            </div>
 
-            <!-- Stats Overview -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon blue"><span class="material-symbols-outlined">group</span></div>
-                    <div class="stat-val">12</div>
-                    <div class="stat-label">Total Patients</div>
+                <!-- Recent Patients Table -->
+                <div class="dashboard-header"
+                    style="display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div>
+                        <h2 style="font-family: 'Outfit'; font-size: 1.4rem;">Patient Status Monitor</h2>
+                        <p style="font-size: 0.875rem;">Real-time vitality and check-in status.</p>
+                    </div>
+                    <a href="#"
+                        style="color: #3b82f6; text-decoration: none; font-weight: 600; font-size: 0.875rem;">View
+                        All Patients →</a>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon red"><span class="material-symbols-outlined">emergency</span></div>
-                    <div class="stat-val">1</div>
-                    <div class="stat-label">Active Emergencies</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon green"><span class="material-symbols-outlined">task_alt</span></div>
-                    <div class="stat-val">84%</div>
-                    <div class="stat-label">Avg. Med Adherence</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon blue"><span class="material-symbols-outlined">trending_up</span></div>
-                    <div class="stat-val">92%</div>
-                    <div class="stat-label">Check-in Compliance</div>
-                </div>
-            </div>
 
-            <!-- Recent Patients Table -->
-            <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
-                <div>
-                    <h2 style="font-family: 'Outfit'; font-size: 1.4rem;">Patient Status Monitor</h2>
-                    <p style="font-size: 0.875rem;">Real-time vitality and check-in status.</p>
+                <div class="table-container">
+                    <table class="ccrm-table">
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Status</th>
+                                <th>Vitals (Current)</th>
+                                <th>Meds</th>
+                                <th>Next Appt.</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="patient-info">
+                                        <div class="patient-avatar">SS</div>
+                                        <div>
+                                            <span class="patient-name">Savita Sharma</span>
+                                            <span style="color: #64748b; font-size: 0.75rem;">ID: #9021</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge-mini online"><span class="material-symbols-outlined"
+                                            style="font-size: 14px;">fiber_manual_record</span> SOS Active</span></td>
+                                <td><span style="color: #ef4444; font-weight: 600;">HR 112 • SpO2 93%</span></td>
+                                <td><span style="color: #64748b;">4/6 Taken</span></td>
+                                <td>Today, 4:00 PM</td>
+                                <td><button class="btn btn-primary btn-small">Open Hub</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="patient-info">
+                                        <div class="patient-avatar" style="background: #fdf2f8; color: #db2777;">RK
+                                        </div>
+                                        <div>
+                                            <span class="patient-name">Rajesh Kumar</span>
+                                            <span style="color: #64748b; font-size: 0.75rem;">ID: #8843</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge-mini online"
+                                        style="background: #eff6ff; color: #1e40af;"><span
+                                            class="material-symbols-outlined"
+                                            style="font-size: 14px;">fiber_manual_record</span> Stable</span></td>
+                                <td>HR 74 • SpO2 98%</td>
+                                <td><span style="color: #059669; font-weight: 600;">ALL TAKEN</span></td>
+                                <td>7 Mar, 2026</td>
+                                <td><button class="btn btn-primary btn-small">Open Hub</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="patient-info">
+                                        <div class="patient-avatar" style="background: #f0fdf4; color: #16a34a;">MP
+                                        </div>
+                                        <div>
+                                            <span class="patient-name">Meera Patel</span>
+                                            <span style="color: #64748b; font-size: 0.75rem;">ID: #7721</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="status-badge-mini offline"><span class="material-symbols-outlined"
+                                            style="font-size: 14px;">fiber_manual_record</span> Offline</span></td>
+                                <td>HR 82 • SpO2 96%</td>
+                                <td>2/5 Taken</td>
+                                <td>12 Mar, 2026</td>
+                                <td><button class="btn btn-primary btn-small">Open Hub</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <a href="#" style="color: #3b82f6; text-decoration: none; font-weight: 600; font-size: 0.875rem;">View
-                    All Patients →</a>
-            </div>
-
-            <div class="table-container">
-                <table class="ccrm-table">
-                    <thead>
-                        <tr>
-                            <th>Patient</th>
-                            <th>Status</th>
-                            <th>Vitals (Current)</th>
-                            <th>Meds</th>
-                            <th>Next Appt.</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="patient-info">
-                                    <div class="patient-avatar">SS</div>
-                                    <div>
-                                        <span class="patient-name">Savita Sharma</span>
-                                        <span style="color: #64748b; font-size: 0.75rem;">ID: #9021</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><span class="status-badge-mini online"><span class="material-symbols-outlined"
-                                        style="font-size: 14px;">fiber_manual_record</span> SOS Active</span></td>
-                            <td><span style="color: #ef4444; font-weight: 600;">HR 112 • SpO2 93%</span></td>
-                            <td><span style="color: #64748b;">4/6 Taken</span></td>
-                            <td>Today, 4:00 PM</td>
-                            <td><button class="btn btn-primary btn-small">Open Hub</button></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="patient-info">
-                                    <div class="patient-avatar" style="background: #fdf2f8; color: #db2777;">RK</div>
-                                    <div>
-                                        <span class="patient-name">Rajesh Kumar</span>
-                                        <span style="color: #64748b; font-size: 0.75rem;">ID: #8843</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><span class="status-badge-mini online"
-                                    style="background: #eff6ff; color: #1e40af;"><span class="material-symbols-outlined"
-                                        style="font-size: 14px;">fiber_manual_record</span> Stable</span></td>
-                            <td>HR 74 • SpO2 98%</td>
-                            <td><span style="color: #059669; font-weight: 600;">ALL TAKEN</span></td>
-                            <td>7 Mar, 2026</td>
-                            <td><button class="btn btn-primary btn-small">Open Hub</button></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="patient-info">
-                                    <div class="patient-avatar" style="background: #f0fdf4; color: #16a34a;">MP</div>
-                                    <div>
-                                        <span class="patient-name">Meera Patel</span>
-                                        <span style="color: #64748b; font-size: 0.75rem;">ID: #7721</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><span class="status-badge-mini offline"><span class="material-symbols-outlined"
-                                        style="font-size: 14px;">fiber_manual_record</span> Offline</span></td>
-                            <td>HR 82 • SpO2 96%</td>
-                            <td>2/5 Taken</td>
-                            <td>12 Mar, 2026</td>
-                            <td><button class="btn btn-primary btn-small">Open Hub</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </main>
+            </section>
+        </main>
+    </div>
 
     <script src="script.js"></script>
 </body>

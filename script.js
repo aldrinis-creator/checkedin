@@ -155,4 +155,59 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    /* =========================================
+       CCRM Authentication Logic
+       ========================================= */
+    const initCCRMAuth = () => {
+        const loginGate = document.getElementById('ccrm-login-gate');
+        const loginBtn = document.getElementById('ccrm-login-btn');
+        const logoutBtn = document.getElementById('ccrm-logout-btn');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const errorMsg = document.getElementById('login-error-msg');
+
+        if (!loginGate || !loginBtn) return;
+
+        // Check for existing session
+        if (sessionStorage.getItem('ccrm_authenticated') === 'true') {
+            document.body.classList.add('is-authenticated');
+            loginGate.style.display = 'none';
+        }
+
+        const handleLogin = () => {
+            const user = usernameInput.value;
+            const pass = passwordInput.value;
+
+            // Simplified admin check
+            if (user === 'admin' && pass === 'guardian2026') {
+                sessionStorage.setItem('ccrm_authenticated', 'true');
+                document.body.classList.add('is-authenticated');
+                loginGate.style.display = 'none';
+                errorMsg.style.display = 'none';
+            } else {
+                errorMsg.style.display = 'block';
+                passwordInput.value = '';
+            }
+        };
+
+        loginBtn.addEventListener('click', handleLogin);
+
+        // Allow 'Enter' key to login
+        [usernameInput, passwordInput].forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleLogin();
+            });
+        });
+
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                sessionStorage.removeItem('ccrm_authenticated');
+                window.location.reload();
+            });
+        }
+    };
+
+    initCCRMAuth();
 });
