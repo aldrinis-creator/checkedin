@@ -2,466 +2,78 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <!-- Consent Management Platform (Temporarily disabled to fix scrolling issue)
-    <script type="text/javascript" data-cmp-ab="1"
-        src="https://cdn.consentmanager.net/delivery/autoblocking/3302ac9a12634.js"
-        data-cmp-host="c.delivery.consentmanager.net" data-cmp-cdn="cdn.consentmanager.net"
-        data-cmp-codesrc="0"></script>
-    -->
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://static.famous.ai/debug.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Check-iN | AI-Powered Healthcare Assistant & Safety Monitor for Seniors</title>
     <meta name="description"
-        content="Check-iN enables independent living for seniors with daily check-ins, SOS alerts, vitals tracking, and a powerful guardian network for peace of mind.">
-    <!-- Google Fonts: Outfit for modern, clean, premium typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Material Symbols for elegant icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <link rel="stylesheet" href="style.css">
+        content="Check-iN is an AI-powered healthcare assistant designed to support senior citizens in living independently by providing health monitoring and emergency support." />
+    <link rel="icon" type="image/svg+xml" href="https://senior-health-guardian.deploypad.app/placeholder.svg" />
+
+    <meta property="og:title" content="Check-iN Health Assistant" />
+    <meta property="og:description"
+        content="Check-iN is an AI-powered healthcare assistant designed to support senior citizens in living independently by providing health monitoring and emergency support." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://senior-health-guardian.deploypad.app/og.jpg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://senior-health-guardian.deploypad.app/og.jpg" />
+
+    <!-- Bundled Assets from the updated app -->
+    <script type="module" crossorigin
+        src="https://senior-health-guardian.deploypad.app/assets/index-UQPWHVSp.js"></script>
+    <link rel="stylesheet" crossorigin href="https://senior-health-guardian.deploypad.app/assets/index-BAUHJFu0.css">
+
+    <style>
+        /* Ensure the Caregiver Portal is accessible and scrolling is enabled */
+        body {
+            margin: 0;
+            overflow-y: auto !important;
+            /* Force scrolling just in case */
+        }
+
+        /* Add a custom Caregiver Portal link to the header if it's missing from the bundle */
+        #portal-tab-custom {
+            padding: 0.5rem 1rem;
+            background: #0ea5e9;
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            position: fixed;
+            top: 15px;
+            right: 250px;
+            z-index: 9999;
+            display: none;
+            /* Hidden by default, script will show if needed */
+        }
+    </style>
 </head>
 
 <body>
+    <div id="root"></div>
 
-    <!-- Header Navigation -->
-    <header id="site-header">
-        <div class="container header-container">
-            <div class="logo">
-                <span class="material-symbols-outlined logo-icon">health_and_safety</span>
-                <span class="logo-text">Check-iN</span>
-            </div>
-            <nav class="desktop-nav">
-                <a href="#features">Features</a>
-                <a href="#how-it-works">How it Works</a>
-                <a href="#guardian-portal">Guardian Portal</a>
-                <a href="#hardware">Smart Ring</a>
-                <a href="#pricing">Pricing</a>
-                <a href="#faq">FAQ</a>
-                <a href="https://senior-health-guardian.deploypad.app/" class="nav-portal-link"
-                    style="color: var(--primary-blue); font-weight: 700;">Caregiver Portal</a>
-            </nav>
-            <div class="header-cta">
-                <a href="#pricing" class="btn btn-primary btn-small">Get Protected</a>
-            </div>
-        </div>
-    </header>
+    <!-- Caregiver Portal link overlay -->
+    <a href="https://myhealthcompanion.online/" id="portal-tab-custom">Caregiver Portal</a>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container hero-container">
-            <div class="hero-content">
-                <div class="badge fade-in-up">Trusted by Families Worldwide</div>
-                <h1 class="fade-in-up delay-1">Independent Living with <span class="text-gradient">Peace of Mind.</span>
-                </h1>
-                <p class="fade-in-up delay-2">Check-iN is an AI-powered healthcare assistant for seniors. Daily
-                    interactive check-ins, automated SOS alerts, and vital tracking ensure absolute safety while
-                    maintaining dignity.</p>
-                <div class="hero-actions fade-in-up delay-3">
-                    <a href="#pricing" class="btn btn-primary btn-large">View Care Plans</a>
-                    <a href="#how-it-works" class="btn btn-secondary btn-large">Learn More</a>
-                </div>
-                <div class="trust-indicators fade-in-up delay-4">
-                    <div class="trust-item"><span class="material-symbols-outlined check-icon">check_circle</span> 24/7
-                        Guardian Alerts</div>
-                    <div class="trust-item"><span class="material-symbols-outlined check-icon">check_circle</span>
-                        Privacy First (GDPR Ready)</div>
-                </div>
-            </div>
-            <div class="hero-visual fade-in-up delay-2">
-                <div class="image-wrapper glass-panel">
-                    <img src="assets/hero_image.png" alt="Happy senior using smartphone independently at home"
-                        onerror="this.src='https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800'; this.onerror=null;">
-                    <div class="floating-alert glass-morphism">
-                        <span class="material-symbols-outlined alert-icon success">favorite</span>
-                        <div class="alert-text">
-                            <strong>Morning Check-iN Complete</strong>
-                            <span>Mom is feeling great today!</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <script>
+        window.__SITE_ID__ = '69923537a592372b8bebdfe6';
 
-    <!-- Core Safety / How it Works -->
-    <section id="how-it-works" class="section bg-soft-blue">
-        <div class="container section-container">
-            <div class="section-header text-center">
-                <h2>The Core Safety System</h2>
-                <p>Designed for absolute reliability. Never wonder if they are okay again.</p>
-            </div>
-            <div class="grid-3 steps-grid">
-                <!-- Step 1 -->
-                <div class="step-card hover-lift">
-                    <div class="icon-circle bg-blue"><span class="material-symbols-outlined">schedule</span></div>
-                    <h3>Daily Check-iN</h3>
-                    <p>Gentle nudges at 7 AM, 12 PM, and 7 PM. A simple tapping of the beating heart button confirms all
-                        is well. Includes a quick mood check.</p>
-                </div>
-                <!-- Step 2 -->
-                <div class="step-card hover-lift">
-                    <div class="icon-circle bg-green"><span
-                            class="material-symbols-outlined">notifications_active</span></div>
-                    <h3>Guardian Network</h3>
-                    <p>Nominated guardians are instantly alerted via SMS and WhatsApp if a check-in is missed, ensuring
-                        someone is always aware.</p>
-                </div>
-                <!-- Step 3 -->
-                <div class="step-card hover-lift">
-                    <div class="icon-circle bg-red"><span class="material-symbols-outlined">emergency</span></div>
-                    <h3>Automated SOS</h3>
-                    <p>Missing 3 consecutive check-ins or manual trigger initiates a 30s countdown before broadcasting
-                        location & medical info to all contacts.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        // Verification script to ensure scrolling is restored
+        window.addEventListener('load', () => {
+            document.documentElement.style.overflow = 'auto';
+            document.body.style.overflow = 'auto';
 
-    <!-- Comprehensive Features -->
-    <section id="features" class="section">
-        <div class="container section-container">
-            <div class="section-header text-center">
-                <h2>Comprehensive Healthcare Toolkit</h2>
-                <p>Powered by AI. Integrated perfectly into their daily lives.</p>
-            </div>
-
-            <div class="features-grid">
-                <!-- AI Health Suite -->
-                <div class="feature-block reveal-on-scroll">
-                    <div class="feature-text">
-                        <div class="tag">AI Health Suite</div>
-                        <h2>Clinical-Grade Intelligence at Home</h2>
-                        <ul class="feature-list">
-                            <li><span class="material-symbols-outlined">face</span> <strong>rPPG Face Scan:</strong>
-                                Estimate heart rate, respiratory rate, and HRV using a 30-second video of your face.
-                            </li>
-                            <li><span class="material-symbols-outlined">document_scanner</span> <strong>ProDoc
-                                    Analyzer:</strong> Instantly decode X-rays, lab reports, and prescriptions into
-                                easy-to-understand summaries.</li>
-                            <li><span class="material-symbols-outlined">video_chat</span> <strong>Tele-Consult
-                                    AI:</strong> Record consultations to generate structured transcripts, symptom lists,
-                                and automated medical summaries.</li>
-                        </ul>
-                    </div>
-                    <div class="feature-visual border-radius-lg">
-                        <img src="assets/feature_health_tools.png" alt="Advanced AI health diagnostics illustration"
-                            style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
-                    </div>
-                </div>
-
-                <!-- Medication & Safety -->
-                <div class="feature-block reverse reveal-on-scroll">
-                    <div class="feature-text">
-                        <div class="tag">Smart Safety & Meds</div>
-                        <h2>Absolute Adherence & Security</h2>
-                        <ul class="feature-list">
-                            <li><span class="material-symbols-outlined">pill</span> <strong>Banned Medicine
-                                    Check:</strong> Automatically cross-references meds against national registries and
-                                suggests bioequivalent alternatives.</li>
-                            <li><span class="material-symbols-outlined">heart_check</span> <strong>Daily Vitality
-                                    Loop:</strong> Configurable check-ins (7 AM, 12 PM, 7 PM) with "Silent Consent"
-                                guardian nomination.</li>
-                            <li><span class="material-symbols-outlined">lock_reset</span> <strong>Secret Vault:</strong>
-                                Secure, encrypted storage for sensitive documents, accessible only by verified vault
-                                nominees.</li>
-                        </ul>
-                    </div>
-                    <div class="feature-visual border-radius-lg">
-                        <img src="assets/feature_medication.png" alt="Secure medical monitoring and safety tech"
-                            style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
-                    </div>
-                </div>
-
-                <!-- Wellness & Gamification -->
-                <div class="feature-block reveal-on-scroll">
-                    <div class="feature-text">
-                        <div class="tag">Wellness & Rewards</div>
-                        <h2>Health isn't just a Score, it's a Journey</h2>
-                        <ul class="feature-list">
-                            <li><span class="material-symbols-outlined">analytics</span> <strong>Wellness Score
-                                    (0-100):</strong> AI-powered health assessment based on vitals, activity, and face
-                                scan data.</li>
-                            <li><span class="material-symbols-outlined">military_tech</span> <strong>XP &
-                                    Badges:</strong> Earn XP for daily checks and level up from "Beginner" to "Wellness
-                                Legend" with 15+ unlockable badges.</li>
-                            <li><span class="material-symbols-outlined">redeem</span> <strong>Loyalty Rewards:</strong>
-                                Convert wellness adherence and step counts into real-world loyalty points.</li>
-                        </ul>
-                        <div class="wellness-badge-container">
-                            <span class="xp-badge"><span class="material-symbols-outlined">monitoring</span> 92 Wellness
-                                Score</span>
-                            <span class="xp-badge"><span class="material-symbols-outlined">workspace_premium</span> Gold
-                                Badge</span>
-                        </div>
-                    </div>
-                    <div class="feature-visual border-radius-lg">
-                        <img src="assets/feature_security.png" alt="Gamified health progress and rewards illustration"
-                            style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Guardian Portal Teaser -->
-    <section id="guardian-portal" class="section">
-        <div class="container">
-            <div class="guardian-portal-teaser reveal-on-scroll">
-                <div class="portal-grid">
-                    <div class="portal-content">
-                        <div class="tag" style="background: rgba(255,255,255,0.1); color: #60a5fa;">The Guardian Network
-                        </div>
-                        <h2 class="text-white">They're Never Alone.</h2>
-                        <p style="color: #94a3b8;">The Guardian Portal is a real-time command center for families.
-                            Monitor vitals, track SOS alerts, and receive "Silent Consent" notifications with absolute
-                            privacy.</p>
-                        <ul class="feature-list" style="color: #cbd5e1;">
-                            <li style="color: inherit;"><span class="material-symbols-outlined"
-                                    style="background: rgba(255,255,255,0.05);">flash_on</span> <strong>Flash
-                                    Calls:</strong> Instant connection during high-priority alerts.</li>
-                            <li style="color: inherit;"><span class="material-symbols-outlined"
-                                    style="background: rgba(255,255,255,0.05);">pedometer</span> <strong>Vitals
-                                    Mirror:</strong> View real-time HR/SpO2 if shared by the user.</li>
-                            <li style="color: inherit;"><span class="material-symbols-outlined"
-                                    style="background: rgba(255,255,255,0.05);">history</span> <strong>72h
-                                    Auto-Delete:</strong> SOS logs and sensitive data are purged for maximum privacy.
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="dashboard-mockup">
-                        <div class="mockup-header">
-                            <span class="status-badge online">Live Monitoring</span>
-                            <span class="material-symbols-outlined">more_vert</span>
-                        </div>
-                        <div class="mockup-vitals">
-                            <div class="vital-mini-card">
-                                <span class="vital-val" style="color: #10b981;">72</span>
-                                <span class="vital-label">BPM</span>
-                            </div>
-                            <div class="vital-mini-card">
-                                <span class="vital-val" style="color: #0ea5e9;">98%</span>
-                                <span class="vital-label">SpO2</span>
-                            </div>
-                            <div class="vital-mini-card">
-                                <span class="vital-val" style="color: #f59e0b;">120/80</span>
-                                <span class="vital-label">BP</span>
-                            </div>
-                            <div class="vital-mini-card">
-                                <span class="vital-val" style="color: #ef4444;">12,4k</span>
-                                <span class="vital-label">Steps</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Hardware Teaser -->
-    <section id="hardware" class="section bg-dark text-white text-center">
-        <div class="container teaser-container reveal-on-scroll">
-            <div class="teaser-content">
-                <div class="badge badge-outline">Coming Soon</div>
-                <h2>The Next Evolution of Safety.</h2>
-                <p>Introducing the Check-iN Smart Ring. Continuous vital monitoring and precision fall detection woven
-                    into a discrete, elegant ring.</p>
-                <div class="hardware-specs">
-                    <span>Fall Detection</span> &bull; <span>Continuous HR/SpO2</span> &bull; <span>Waterproof</span>
-                    &bull; <span>7-Day Battery</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section id="pricing" class="section bg-soft-blue">
-        <div class="container section-container">
-            <div class="section-header text-center">
-                <h2>Simple, Transparent Pricing</h2>
-                <p>Choose the plan that gives you perfect peace of mind. <br><strong class="highlight-text">Introductory
-                        prices end April 20, 2026.</strong></p>
-            </div>
-
-            <div class="pricing-toggle-container">
-                <span class="toggle-label" id="label-monthly">Monthly</span>
-                <label class="switch">
-                    <input type="checkbox" id="pricing-toggle" checked>
-                    <span class="slider round"></span>
-                </label>
-                <span class="toggle-label active" id="label-yearly">Yearly <span class="save-badge">Save
-                        ~15%</span></span>
-            </div>
-
-            <div class="pricing-grid">
-                <!-- Basic Plan -->
-                <div class="pricing-card">
-                    <h3 class="plan-name">Basic Plan</h3>
-                    <div class="price-block">
-                        <span class="currency">Rs.</span>
-                        <span class="price" data-monthly="99" data-yearly="999">999</span>
-                        <span class="duration" data-monthly="/mo" data-yearly="/yr">/yr</span>
-                    </div>
-                    <ul class="plan-features">
-                        <li><span class="material-symbols-outlined text-green">check</span> 3 Daily Check-ins & Nudges
-                        </li>
-                        <li><span class="material-symbols-outlined text-green">check</span> SOS Escalation to 1 Guardian
-                        </li>
-                        <li><span class="material-symbols-outlined text-green">check</span> Basic Medication Tracker
-                        </li>
-                        <li><span class="material-symbols-outlined text-green">check</span> Standard Care Dashboard</li>
-                        <li><span class="material-symbols-outlined text-muted">close</span> Face Scan Vitals</li>
-                        <li><span class="material-symbols-outlined text-muted">close</span> AI Document Analyzer</li>
-                    </ul>
-                    <button class="btn btn-outline-primary btn-full">Choose Basic</button>
-                </div>
-
-                <!-- Premium Plan -->
-                <div class="pricing-card popular">
-                    <!-- <div class="popular-ribbon">Most Popular</div> -->
-                    <div class="popular-tag">Most Popular</div>
-                    <h3 class="plan-name">Premium Plan</h3>
-                    <div class="price-block">
-                        <span class="currency">Rs.</span>
-                        <span class="price" data-monthly="199" data-yearly="1999">1999</span>
-                        <span class="duration" data-monthly="/mo" data-yearly="/yr">/yr</span>
-                    </div>
-                    <ul class="plan-features">
-                        <li><span class="material-symbols-outlined text-green">check</span> Everything in Basic</li>
-                        <li><span class="material-symbols-outlined text-green">check</span> Unlimited Guardians & SOS
-                        </li>
-                        <li><span class="material-symbols-outlined text-green">check</span> Face Scan Health Vitals</li>
-                        <li><span class="material-symbols-outlined text-green">check</span> AI Document & Symptom
-                            Analyzer</li>
-                        <li><span class="material-symbols-outlined text-green">check</span> Weekly Automated Reports
-                        </li>
-                        <li><span class="material-symbols-outlined text-green">check</span> Smart Ring Compatibility
-                        </li>
-                    </ul>
-                    <button class="btn btn-primary btn-full">Choose Premium</button>
-                </div>
-            </div>
-
-            <div class="hardware-addon-box text-center mt-4">
-                <h4>Optional Hardware Add-on</h4>
-                <p><strong>Check-iN Smart Ring:</strong> ₹6,999 (One-time charge)</p>
-                <p>Limited price offer @30% discount for early subscribers.</p>
-                <p><small class="text-muted">Requires Premium Plan. Ships Q3 2026.</small></p>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section id="faq" class="section bg-soft-blue">
-        <div class="container">
-            <div class="section-header text-center">
-                <div class="tag">Common Questions</div>
-                <h2>Everything You Need to Know</h2>
-                <p>Transparent answers about safety, privacy, and how My Health Companion works for your family.</p>
-            </div>
-            <div class="faq-grid reveal-on-scroll">
-                <!-- Check-In -->
-                <div class="faq-item">
-                    <button class="faq-question">
-                        What is the Daily Check-In feature?
-                        <span class="material-symbols-outlined">expand_more</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Daily Check-In is a safety feature where you confirm you're okay at scheduled times (7 AM, 12
-                            PM, 7 PM). Tap the beating heart on your dashboard. If multiple check-ins are missed,
-                            nominated guardians are automatically alerted with your location and medical vitals.</p>
-                    </div>
-                </div>
-                <!-- Guardians -->
-                <div class="faq-item">
-                    <button class="faq-question">
-                        How does "Silent Consent" for Guardians work?
-                        <span class="material-symbols-outlined">expand_more</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>When you nominate a guardian, they receive a secure invitation. They have a one-hour window
-                            to reject the nomination. If they don't, they are automatically accepted into your network.
-                            This ensures you're never without a primary emergency contact during setup.</p>
-                    </div>
-                </div>
-                <!-- Privacy -->
-                <div class="faq-item">
-                    <button class="faq-question">
-                        Is my health data private from my Guardians?
-                        <span class="material-symbols-outlined">expand_more</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Yes. Guardian access is strictly limited to emergency-relevant data (blood type, allergies,
-                            conditions). Sensitive personal documents and chronic health metrics are hidden and only
-                            shared if you specifically grant "Vault Access" to a nominee.</p>
-                    </div>
-                </div>
-                <!-- AI Tools -->
-                <div class="faq-item">
-                    <button class="faq-question">
-                        What is a Face Scan (Vitals Scan)?
-                        <span class="material-symbols-outlined">expand_more</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Using rPPG technology, our AI estimates Heart Rate (BPM), Respiratory Rate, and HRV from a
-                            simple 30-second video of your face. No wearable hardware is required for these basic
-                            vitals.</p>
-                    </div>
-                </div>
-                <!-- Wellness Score -->
-                <div class="faq-item">
-                    <button class="faq-question">
-                        How is the Wellness Score calculated?
-                        <span class="material-symbols-outlined">expand_more</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>The score (0-100) analyzes your vitals against standard medical reference ranges. It
-                            incorporates Blood Pressure, SpO2, Heart Rate, and activity levels to give you a daily
-                            "Snapshot" of your overall well-being.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container footer-container">
-            <div class="footer-brand">
-                <div class="logo">
-                    <span class="material-symbols-outlined logo-icon">health_and_safety</span>
-                    <span class="logo-text">Check-iN</span>
-                </div>
-                <p>Empowering seniors. Reassuring families.</p>
-            </div>
-            <div class="footer-links">
-                <div class="link-col">
-                    <h4>Product</h4>
-                    <a href="#features">Features</a>
-                    <a href="#pricing">Pricing</a>
-                    <a href="#hardware">Smart Ring</a>
-                </div>
-                <div class="link-col">
-                    <h4>Legal</h4>
-                    <a href="https://drive.google.com/file/d/1facmn0XHT8RXXUIyClodPbqMDcaYP-1h/view?usp=sharing"
-                        target="_blank" rel="noopener">Privacy Policy</a>
-                    <a href="https://drive.google.com/file/d/15dinH7ljCb8FooHwvIpQXrE9MdouHgz1/view?usp=drive_link"
-                        target="_blank" rel="noopener">Terms of Service</a>
-                    <a href="https://drive.google.com/file/d/1k4xug8oxy_OFOhNeSSw4sjacxZov-fa6/view?usp=drive_link"
-                        target="_blank" rel="noopener">FAQ's</a>
-                    <a href="https://senior-health-guardian.deploypad.app/"
-                        style="font-weight: 600; color: #0ea5e9;">Caregiver Portal</a>
-                    <a href="#">GDPR & DPDPA</a>
-                </div>
-            </div>
-        </div>
-        <div class="container footer-bottom">
-            <p>&copy; 2026 Check-iN. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+            // Show the portal link if the main nav doesn't have it
+            setTimeout(() => {
+                const nav = document.querySelector('nav');
+                if (nav && !nav.innerText.toLowerCase().includes('caregiver')) {
+                    document.getElementById('portal-tab-custom').style.display = 'block';
+                }
+            }, 2000);
+        });
+    </script>
+    <script src="https://static.famous.ai/events.js"></script>
 </body>
 
 </html>
