@@ -1305,4 +1305,5 @@ body.is-authenticated {
 
 body:not(.is-authenticated) {
     overflow: hidden;
+
 }
