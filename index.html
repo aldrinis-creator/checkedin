@@ -25,27 +25,62 @@
     <link rel="stylesheet" crossorigin href="https://senior-health-guardian.deploypad.app/assets/index-BAUHJFu0.css">
 
     <style>
-        /* Ensure the Caregiver Portal is accessible and scrolling is enabled */
+        /* Force scrolling for both mobile and desktop */
+        html,
         body {
-            margin: 0;
-            overflow-y: auto !important;
-            /* Force scrolling just in case */
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: auto !important;
+            height: auto !important;
+            min-height: 100% !important;
+            -webkit-overflow-scrolling: touch !important;
         }
 
-        /* Add a custom Caregiver Portal link to the header if it's missing from the bundle */
+        /* Hide 'Explore App' button from the dynamic Famous.ai bundle */
+        [data-famous-id*="button"]:has(*:contains("Explore App")),
+        button:has(*:contains("Explore App")),
+        a:has(*:contains("Explore App")),
+        div:has(> span:contains("Explore App")) {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        /* Custom Caregiver Portal link (CRM) */
         #portal-tab-custom {
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.4rem;
             background: #0ea5e9;
-            color: white;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
+            color: white !important;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none !important;
             position: fixed;
             top: 15px;
-            right: 250px;
-            z-index: 9999;
-            display: none;
-            /* Hidden by default, script will show if needed */
+            right: 170px;
+            z-index: 2147483647;
+            /* Ensure it stays above the SPA layer */
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: block !important;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        #portal-tab-custom:hover {
+            background: #0284c7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            #portal-tab-custom {
+                right: 20px;
+                top: 80px;
+                /* Shift down on mobile so it doesn't overlap logo */
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -53,25 +88,34 @@
 <body>
     <div id="root"></div>
 
-    <!-- Caregiver Portal link overlay -->
-    <a href="https://myhealthcompanion.online/" id="portal-tab-custom">Caregiver Portal</a>
+    <!-- Caregiver Portal points to the CRM (ccrm.html) -->
+    <a href="ccrm.html" id="portal-tab-custom">Caregiver Portal</a>
 
     <script>
         window.__SITE_ID__ = '69923537a592372b8bebdfe6';
 
-        // Verification script to ensure scrolling is restored
-        window.addEventListener('load', () => {
-            document.documentElement.style.overflow = 'auto';
-            document.body.style.overflow = 'auto';
+        const applyFixes = () => {
+            // Force restore scrolling
+            document.documentElement.style.setProperty('overflow', 'auto', 'important');
+            document.body.style.setProperty('overflow', 'auto', 'important');
+            document.documentElement.style.setProperty('height', 'auto', 'important');
+            document.body.style.setProperty('height', 'auto', 'important');
 
-            // Show the portal link if the main nav doesn't have it
-            setTimeout(() => {
-                const nav = document.querySelector('nav');
-                if (nav && !nav.innerText.toLowerCase().includes('caregiver')) {
-                    document.getElementById('portal-tab-custom').style.display = 'block';
+            // Find and hide any "Explore App" elements that appear as the SPA renders
+            document.querySelectorAll('button, a, span, div, p').forEach(el => {
+                const text = el.textContent.trim();
+                if (text === 'Explore App' || text === 'explore app') {
+                    const target = el.closest('button') || el.closest('a') || el;
+                    target.style.setProperty('display', 'none', 'important');
+                    target.style.setProperty('visibility', 'hidden', 'important');
                 }
-            }, 2000);
-        });
+            });
+        };
+
+        // Run immediately and then frequently to combat SPA state changes
+        applyFixes();
+        window.addEventListener('load', applyFixes);
+        setInterval(applyFixes, 800);
     </script>
     <script src="https://static.famous.ai/events.js"></script>
 </body>
