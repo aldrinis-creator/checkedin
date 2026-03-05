@@ -1131,6 +1131,27 @@ input:checked+.slider:before {
 /* =========================================
    CCRM Dashboard Components
    ========================================= */
+.crm-module {
+    display: none;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.crm-module.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .ccrm-sidebar {
     transition: all 0.3s ease;
 }
