@@ -112,45 +112,39 @@
             document.querySelectorAll('button, a, span, div, p').forEach(el => {
                 const text = el.textContent.trim();
 
-                // Keep only the exact text matching for robust replacement
-                if (text.toLowerCase() === 'explore app') {
+                // Exact match for UI hiding
+                if (text.toLowerCase() === 'explore app' || text === 'Admin' || text === 'Privacy Settings') {
                     const target = el.closest('button') || el.closest('a') || el;
-                    target.classList.add('hide-element');
-                }
-                if (text === 'Admin') {
-                    const target = el.closest('button') || el.closest('a') || el;
-                    target.classList.add('hide-element');
+                    if (target) {
+                        target.classList.add('hide-element');
+                    }
                 }
 
-                // Completely hide ANY Privacy Settings buttons/links in the DOM
-                if (text === 'Privacy Settings') {
-                    const target = el.closest('button') || el.closest('a') || el;
-                    target.classList.add('hide-element');
+                // Address substitution (ONLY on leaf nodes to prevent wiping out the entire page container!)
+                if (el.children.length === 0) {
+                    if (text.includes('San Francisco') || text.includes('Bangalore') || text === 'Mumbai, Maharashtra 400051') {
+                        // Prevent infinite loop rewriting if it's already correct
+                        if (text !== 'The Office is in Mumbai, Maharashtra 400051') {
+                            el.textContent = 'The Office is in Mumbai, Maharashtra 400051';
+                        }
+                    }
                 }
 
-                // Intercept ANY address variations
-                if (text.includes('San Francisco, CA') || text.includes('Bangalore') || text.includes('Mumbai')) {
-                    el.textContent = 'The Office is in Mumbai, Maharashtra 400051';
-                }
-
-                // Inject Links and Fix text
-                if (text === 'Privacy Policy' && el.tagName === 'A') {
-                    el.href = 'https://drive.google.com/file/d/1facmn0XHT8RXXUIyClodPbqMDcaYP-1h/view?usp=sharing';
-                    el.target = '_blank';
-                }
-                if (text === 'Terms of Service' && el.tagName === 'A') {
-                    el.href = 'https://drive.google.com/file/d/15dinH7ljCb8FooHwvIpQXrE9MdouHgz1/view?usp=sharing';
-                    el.target = '_blank';
-                }
-                if (text === 'FAQ' && el.tagName === 'A') {
-                    el.textContent = 'FAQs';
-                    el.href = 'https://docs.google.com/document/d/1SRFPSK-cVkENgcPIJyO5ZUVoVhuf8VEL/edit?usp=sharing&ouid=106024047286888919119&rtpof=true&sd=true';
-                    el.target = '_blank';
-                }
-                // Handle the case where the text was already transformed to FAQs in a previous render cycle
-                if (text === 'FAQs' && el.tagName === 'A') {
-                    el.href = 'https://docs.google.com/document/d/1SRFPSK-cVkENgcPIJyO5ZUVoVhuf8VEL/edit?usp=sharing&ouid=106024047286888919119&rtpof=true&sd=true';
-                    el.target = '_blank';
+                // Inject Links and Fix text (Anchors only)
+                if (el.tagName === 'A') {
+                    if (text === 'Privacy Policy') {
+                        el.href = 'https://drive.google.com/file/d/1facmn0XHT8RXXUIyClodPbqMDcaYP-1h/view?usp=sharing';
+                        el.target = '_blank';
+                    }
+                    if (text === 'Terms of Service') {
+                        el.href = 'https://drive.google.com/file/d/15dinH7ljCb8FooHwvIpQXrE9MdouHgz1/view?usp=sharing';
+                        el.target = '_blank';
+                    }
+                    if (text === 'FAQ' || text === 'FAQs') {
+                        el.textContent = 'FAQs';
+                        el.href = 'https://docs.google.com/document/d/1SRFPSK-cVkENgcPIJyO5ZUVoVhuf8VEL/edit?usp=sharing&ouid=106024047286888919119&rtpof=true&sd=true';
+                        el.target = '_blank';
+                    }
                 }
             });
 
