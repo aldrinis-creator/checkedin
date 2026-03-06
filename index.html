@@ -75,24 +75,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Privacy Settings moved to top line */
-        #privacy-settings-custom {
-            position: fixed;
-            top: 22px;
-            right: 170px;
-            z-index: 2147483647;
-            color: #475569;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        #privacy-settings-custom:hover {
-            color: #0ea5e9;
-        }
-
         #portal-tab-custom:hover {
             background: #0284c7;
             transform: translateY(-2px);
@@ -106,11 +88,6 @@
                 padding: 0.5rem 1rem;
                 font-size: 0.8rem;
             }
-
-            #privacy-settings-custom {
-                top: 85px;
-                right: 150px;
-            }
         }
     </style>
 </head>
@@ -118,8 +95,6 @@
 <body>
     <div id="root"></div>
 
-    <!-- Top line utility navigation -->
-    <a href="#" id="privacy-settings-custom">Privacy Settings</a>
     <!-- Team Portal points to the CRM (ccrm.html) -->
     <a href="ccrm.html" id="portal-tab-custom">Team Portal</a>
 
@@ -133,35 +108,54 @@
             document.documentElement.style.setProperty('height', 'auto', 'important');
             document.body.style.setProperty('height', 'auto', 'important');
 
-            // Find and hide specific elements from the SPA
+            // Find and modify specific elements from the SPA
             document.querySelectorAll('button, a, span, div, p').forEach(el => {
                 const text = el.textContent.trim();
-                const iconCheck = el.querySelector('svg, i') || el;
 
-                // Hide Explore App
+                // Keep only the exact text matching for robust replacement
                 if (text.toLowerCase() === 'explore app') {
                     const target = el.closest('button') || el.closest('a') || el;
                     target.classList.add('hide-element');
                 }
-                // Hide Admin button
                 if (text === 'Admin') {
                     const target = el.closest('button') || el.closest('a') || el;
                     target.classList.add('hide-element');
                 }
-                // Hide existing 'Privacy Settings' (as we moved it to top Custom nav)
-                if (text === 'Privacy Settings' && el.id !== 'privacy-settings-custom') {
+
+                // Completely hide ANY Privacy Settings buttons/links in the DOM
+                if (text === 'Privacy Settings') {
                     const target = el.closest('button') || el.closest('a') || el;
                     target.classList.add('hide-element');
                 }
-                // Intercept the San Francisco address and change to Mumbai
-                if (text.includes('San Francisco, CA')) {
+
+                // Intercept ANY address variations
+                if (text.includes('San Francisco, CA') || text.includes('Bangalore')) {
                     el.textContent = 'Mumbai, Maharashtra 400051';
+                }
+
+                // Inject Links and Fix text
+                if (text === 'Privacy Policy' && el.tagName === 'A') {
+                    el.href = 'https://drive.google.com/file/d/1facmn0XHT8RXXUIyClodPbqMDcaYP-1h/view?usp=sharing';
+                    el.target = '_blank';
+                }
+                if (text === 'Terms of Service' && el.tagName === 'A') {
+                    el.href = 'https://drive.google.com/file/d/15dinH7ljCb8FooHwvIpQXrE9MdouHgz1/view?usp=sharing';
+                    el.target = '_blank';
+                }
+                if (text === 'FAQ' && el.tagName === 'A') {
+                    el.textContent = 'FAQs';
+                    el.href = 'https://docs.google.com/document/d/1SRFPSK-cVkENgcPIJyO5ZUVoVhuf8VEL/edit?usp=sharing&ouid=106024047286888919119&rtpof=true&sd=true';
+                    el.target = '_blank';
+                }
+                // Handle the case where the text was already transformed to FAQs in a previous render cycle
+                if (text === 'FAQs' && el.tagName === 'A') {
+                    el.href = 'https://docs.google.com/document/d/1SRFPSK-cVkENgcPIJyO5ZUVoVhuf8VEL/edit?usp=sharing&ouid=106024047286888919119&rtpof=true&sd=true';
+                    el.target = '_blank';
                 }
             });
 
-            // Hide Gear Icon specifically (usually SVG)
+            // Hide Gear Icon specifically
             document.querySelectorAll('svg').forEach(svg => {
-                // Heuristic: if inside a button with no text (or only a tiny parent) it's likely the gear icon bottom right
                 const parentBtn = svg.closest('button');
                 if (parentBtn && parentBtn.textContent.trim() === '' && !parentBtn.closest('nav')) {
                     parentBtn.classList.add('hide-element');
