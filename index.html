@@ -120,6 +120,18 @@
                     }
                 }
 
+                // Hide Introductory Pricing Band conservatively
+                if (text.toLowerCase().includes('introductory')) {
+                    if (el.children.length === 0) {
+                        const target = el.closest('div') || el;
+                        if (target.textContent.length < 200) {
+                            target.classList.add('hide-element');
+                        } else {
+                            el.classList.add('hide-element');
+                        }
+                    }
+                }
+
                 // Address substitution (ONLY on leaf nodes to prevent wiping out the entire page container!)
                 if (el.children.length === 0) {
                     if (text.includes('San Francisco') || text.includes('Bangalore') || text === 'Mumbai, Maharashtra 400051') {
