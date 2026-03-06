@@ -156,18 +156,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initCRMModules();
 
-    const resolveSosBtn = document.querySelector('.sos-panel .btn');
-    if (resolveSosBtn) {
-        resolveSosBtn.addEventListener('click', () => {
+    const resolveSosBtns = document.querySelectorAll('.resolve-sos-btn');
+    resolveSosBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
             if (confirm('Are you sure you want to resolve this SOS alert? All guardians will be notified.')) {
-                const sosPanel = document.querySelector('.sos-panel');
+                const sosPanel = btn.closest('.sos-panel');
                 if (sosPanel) {
                     sosPanel.style.display = 'none';
                 }
-                alert('SOS Alert Resolved. Notification sent to primary guardian.');
+                alert('SOS Alert Resolved. Emergency Actions Logged.');
             }
         });
-    }
+    });
 
     // Generic Search Filter for Active Module Table
     const searchInput = document.querySelector('.header-search input');
