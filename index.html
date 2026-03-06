@@ -47,7 +47,15 @@
             pointer-events: none !important;
         }
 
-        /* Custom Caregiver Portal link (CRM) */
+        /* Hide specific elements: gear, Admin, old Privacy Settings */
+        .hide-element {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        /* Custom Team Portal link (CRM) - moved to extreme right */
         #portal-tab-custom {
             padding: 0.6rem 1.4rem;
             background: #0ea5e9;
@@ -57,7 +65,7 @@
             text-decoration: none !important;
             position: fixed;
             top: 15px;
-            right: 170px;
+            right: 15px;
             z-index: 2147483647;
             /* Ensure it stays above the SPA layer */
             box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
@@ -65,6 +73,24 @@
             display: block !important;
             font-size: 0.9rem;
             letter-spacing: 0.5px;
+        }
+
+        /* Privacy Settings moved to top line */
+        #privacy-settings-custom {
+            position: fixed;
+            top: 22px;
+            right: 170px;
+            z-index: 2147483647;
+            color: #475569;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        #privacy-settings-custom:hover {
+            color: #0ea5e9;
         }
 
         #portal-tab-custom:hover {
@@ -75,11 +101,15 @@
 
         @media (max-width: 768px) {
             #portal-tab-custom {
-                right: 20px;
+                right: 15px;
                 top: 80px;
-                /* Shift down on mobile so it doesn't overlap logo */
                 padding: 0.5rem 1rem;
                 font-size: 0.8rem;
+            }
+
+            #privacy-settings-custom {
+                top: 85px;
+                right: 150px;
             }
         }
     </style>
@@ -88,6 +118,8 @@
 <body>
     <div id="root"></div>
 
+    <!-- Top line utility navigation -->
+    <a href="#" id="privacy-settings-custom">Privacy Settings</a>
     <!-- Team Portal points to the CRM (ccrm.html) -->
     <a href="ccrm.html" id="portal-tab-custom">Team Portal</a>
 
@@ -101,13 +133,38 @@
             document.documentElement.style.setProperty('height', 'auto', 'important');
             document.body.style.setProperty('height', 'auto', 'important');
 
-            // Find and hide any "Explore App" elements that appear as the SPA renders
+            // Find and hide specific elements from the SPA
             document.querySelectorAll('button, a, span, div, p').forEach(el => {
                 const text = el.textContent.trim();
-                if (text === 'Explore App' || text === 'explore app') {
+                const iconCheck = el.querySelector('svg, i') || el;
+
+                // Hide Explore App
+                if (text.toLowerCase() === 'explore app') {
                     const target = el.closest('button') || el.closest('a') || el;
-                    target.style.setProperty('display', 'none', 'important');
-                    target.style.setProperty('visibility', 'hidden', 'important');
+                    target.classList.add('hide-element');
+                }
+                // Hide Admin button
+                if (text === 'Admin') {
+                    const target = el.closest('button') || el.closest('a') || el;
+                    target.classList.add('hide-element');
+                }
+                // Hide existing 'Privacy Settings' (as we moved it to top Custom nav)
+                if (text === 'Privacy Settings' && el.id !== 'privacy-settings-custom') {
+                    const target = el.closest('button') || el.closest('a') || el;
+                    target.classList.add('hide-element');
+                }
+                // Intercept the San Francisco address and change to Mumbai
+                if (text.includes('San Francisco, CA')) {
+                    el.textContent = 'Mumbai, Maharashtra 400051';
+                }
+            });
+
+            // Hide Gear Icon specifically (usually SVG)
+            document.querySelectorAll('svg').forEach(svg => {
+                // Heuristic: if inside a button with no text (or only a tiny parent) it's likely the gear icon bottom right
+                const parentBtn = svg.closest('button');
+                if (parentBtn && parentBtn.textContent.trim() === '' && !parentBtn.closest('nav')) {
+                    parentBtn.classList.add('hide-element');
                 }
             });
         };
