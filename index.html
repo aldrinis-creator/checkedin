@@ -31,20 +31,7 @@
             margin: 0 !important;
             padding: 0 !important;
             overflow: auto !important;
-            height: auto !important;
-            min-height: 100% !important;
             -webkit-overflow-scrolling: touch !important;
-        }
-
-        /* Hide 'Explore App' button from the dynamic Famous.ai bundle */
-        [data-famous-id*="button"]:has(*:contains("Explore App")),
-        button:has(*:contains("Explore App")),
-        a:has(*:contains("Explore App")),
-        div:has(> span:contains("Explore App")) {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
         }
 
         /* Hide specific elements: gear, Admin, old Privacy Settings */
@@ -101,27 +88,73 @@
     <script>
         window.__SITE_ID__ = '69923537a592372b8bebdfe6';
 
+        const injectLegalFooter = () => {
+            if (!document.getElementById('custom-legal-footer')) {
+                const footer = document.createElement('div');
+                footer.id = 'custom-legal-footer';
+                footer.style.cssText = 'position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(15, 23, 42, 0.95); padding: 12px 20px; z-index: 2147483647; display: flex; justify-content: center; align-items: center; gap: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); flex-wrap: wrap; box-sizing: border-box; font-family: Inter, sans-serif; backdrop-filter: blur(5px);';
+                
+                const legalTitle = document.createElement('span');
+                legalTitle.style.cssText = 'color: #94a3b8; font-weight: 600; font-size: 0.9rem;';
+                legalTitle.textContent = 'Legal:';
+                
+                const privacyLink = document.createElement('a');
+                privacyLink.href = 'https://drive.google.com/file/d/1facmn0XHT8RXXUIyClodPbqMDcaYP-1h/view?usp=sharing';
+                privacyLink.target = '_blank';
+                privacyLink.style.cssText = 'color: #38bdf8; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.2s;';
+                privacyLink.textContent = 'Privacy Policy';
+                
+                const termsLink = document.createElement('a');
+                termsLink.href = 'https://drive.google.com/file/d/15dinH7ljCb8FooHwvIpQXrE9MdouHgz1/view?usp=sharing';
+                termsLink.target = '_blank';
+                termsLink.style.cssText = 'color: #38bdf8; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.2s;';
+                termsLink.textContent = 'Terms of Service';
+                
+                const faqLink = document.createElement('a');
+                faqLink.href = 'https://docs.google.com/document/d/1SRFPSK-cVkENgcPIJyO5ZUVoVhuf8VEL/edit?usp=sharing&ouid=106024047286888919119&rtpof=true&sd=true';
+                faqLink.target = '_blank';
+                faqLink.style.cssText = 'color: #38bdf8; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.2s;';
+                faqLink.textContent = 'FAQ\'s';
+
+                footer.appendChild(legalTitle);
+                footer.appendChild(privacyLink);
+                footer.appendChild(termsLink);
+                footer.appendChild(faqLink);
+                document.body.appendChild(footer);
+            }
+        };
+
         const applyFixes = () => {
-            // Force restore scrolling
             document.documentElement.style.setProperty('overflow', 'auto', 'important');
             document.body.style.setProperty('overflow', 'auto', 'important');
-            document.documentElement.style.setProperty('height', 'auto', 'important');
-            document.body.style.setProperty('height', 'auto', 'important');
 
-            // Find and modify specific elements from the SPA
+            injectLegalFooter();
+
             document.querySelectorAll('button, a, span, div, p').forEach(el => {
                 const text = el.textContent.trim();
+                const lowerText = text.toLowerCase();
 
-                // Exact match for UI hiding
-                if (text.toLowerCase() === 'explore app' || text === 'Admin' || text === 'Privacy Settings') {
+                if (el.tagName === 'BUTTON' && el.querySelector('svg')) {
+                    if(el.classList.contains('hide-element')) el.classList.remove('hide-element');
+                    const style = window.getComputedStyle(el);
+                    if (style.position === 'fixed' || style.position === 'absolute') {
+                        el.style.setProperty('display', 'flex', 'important');
+                        el.style.setProperty('visibility', 'visible', 'important');
+                        el.style.setProperty('opacity', '1', 'important');
+                        el.style.setProperty('z-index', '99999', 'important');
+                    }
+                }
+
+                if (!text) return;
+
+                if (lowerText === 'explore app' || text === 'Admin') {
                     const target = el.closest('button') || el.closest('a') || el;
                     if (target) {
                         target.classList.add('hide-element');
                     }
                 }
 
-                // Hide Introductory Pricing Band conservatively
-                if (text.toLowerCase().includes('introductory')) {
+                if (lowerText.includes('introductory')) {
                     if (el.children.length === 0) {
                         const target = el.closest('div') || el;
                         if (target.textContent.length < 200) {
@@ -132,39 +165,12 @@
                     }
                 }
 
-                // Address substitution (ONLY on leaf nodes to prevent wiping out the entire page container!)
                 if (el.children.length === 0) {
                     if (text.includes('San Francisco') || text.includes('Bangalore') || text === 'Mumbai, Maharashtra 400051') {
-                        // Prevent infinite loop rewriting if it's already correct
                         if (text !== 'The Office is in Mumbai, Maharashtra 400051') {
                             el.textContent = 'The Office is in Mumbai, Maharashtra 400051';
                         }
                     }
-                }
-
-                // Inject Links and Fix text (Anchors only)
-                if (el.tagName === 'A') {
-                    if (text === 'Privacy Policy') {
-                        el.href = 'https://drive.google.com/file/d/1facmn0XHT8RXXUIyClodPbqMDcaYP-1h/view?usp=sharing';
-                        el.target = '_blank';
-                    }
-                    if (text === 'Terms of Service') {
-                        el.href = 'https://drive.google.com/file/d/15dinH7ljCb8FooHwvIpQXrE9MdouHgz1/view?usp=sharing';
-                        el.target = '_blank';
-                    }
-                    if (text === 'FAQ' || text === 'FAQs') {
-                        el.textContent = 'FAQs';
-                        el.href = 'https://docs.google.com/document/d/1SRFPSK-cVkENgcPIJyO5ZUVoVhuf8VEL/edit?usp=sharing&ouid=106024047286888919119&rtpof=true&sd=true';
-                        el.target = '_blank';
-                    }
-                }
-            });
-
-            // Hide Gear Icon specifically
-            document.querySelectorAll('svg').forEach(svg => {
-                const parentBtn = svg.closest('button');
-                if (parentBtn && parentBtn.textContent.trim() === '' && !parentBtn.closest('nav')) {
-                    parentBtn.classList.add('hide-element');
                 }
             });
         };
