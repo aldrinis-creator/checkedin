@@ -3,9 +3,9 @@
    ========================================= */
 :root {
     /* Color Palette - Vibrant & Refreshing */
-    --primary-blue: #0ea5e9;
+    --primary-blue: #0070c9;
     /* Light, vibrant cyan/blue */
-    --primary-blue-hover: #0284c7;
+    --primary-blue-hover: #005ea6;
     --secondary-green: #10b981;
     /* Fresh, bright emerald */
     --accent-red: #ef4444;
@@ -24,18 +24,18 @@
     /* Gradients */
     --grad-blue: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
     --grad-green: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-    --grad-text: linear-gradient(to right, #0ea5e9, #6366f1);
+    --grad-text: linear-gradient(to right, #0070c9, #6366f1);
     /* Cyan to Indigo gradient */
 
     /* Typography */
     --font-main: 'Outfit', sans-serif;
 
     /* Shadows & Radii - Softer, more diffuse shadows */
-    --shadow-sm: 0 2px 4px 0 rgb(14 165 233 / 0.05);
+    --shadow-sm: 0 2px 4px 0 rgb(0 112 201 / 0.05);
     /* Tinted shadows */
-    --shadow-md: 0 4px 6px -1px rgb(14 165 233 / 0.1), 0 2px 4px -2px rgb(14 165 233 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(14 165 233 / 0.1), 0 4px 6px -4px rgb(14 165 233 / 0.05);
-    --shadow-float: 0 20px 25px -5px rgb(14 165 233 / 0.15), 0 8px 10px -6px rgb(14 165 233 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 112 201 / 0.1), 0 2px 4px -2px rgb(0 112 201 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 112 201 / 0.1), 0 4px 6px -4px rgb(0 112 201 / 0.05);
+    --shadow-float: 0 20px 25px -5px rgb(0 112 201 / 0.15), 0 8px 10px -6px rgb(0 112 201 / 0.1);
     --radius-md: 16px;
     --radius-lg: 28px;
     --radius-pill: 9999px;
@@ -213,7 +213,7 @@ p {
 .btn-primary:hover {
     background-color: var(--primary-blue-hover);
     transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.4), 0 4px 6px -4px rgba(14, 165, 233, 0.2);
+    box-shadow: 0 10px 15px -3px rgba(0, 112, 201, 0.4), 0 4px 6px -4px rgba(0, 112, 201, 0.2);
 }
 
 .btn-secondary {
