@@ -133,39 +133,70 @@
 
             // Move Accessibility Widget to Nav Bar
             try {
-                const getStartedBtn = Array.from(document.querySelectorAll('button, a, div')).find(el => el.textContent && el.textContent.trim() === 'Get Started');
-                if (getStartedBtn) {
-                    let cmpWrapper = document.querySelector('.cmp-accessibility-btn') || 
-                                     document.querySelector('iframe[src*="accessibility"]')?.closest('div') || 
-                                     document.querySelector('[id*="cmp-accessibility"], [class*="cmp-accessibility"]');
+                let getStartedBtn = null;
+                const allNodes = document.querySelectorAll('button, a, div, span');
+                for (let el of allNodes) {
+                    if (el.textContent && el.textContent.trim().toLowerCase() === 'get started') {
+                        getStartedBtn = el.tagName === 'SPAN' || el.tagName === 'DIV' ? (el.closest('button, a') || el) : el;
+                        break;
+                    }
+                }
 
-                    if (!cmpWrapper) {
-                        const bodyDivs = Array.from(document.body.children).filter(el => el.tagName === 'DIV');
-                        for (const div of bodyDivs) {
-                            if (div.id !== 'root' && div.id !== 'custom-legal-footer' && div.id !== 'ccrm-login-gate') {
-                                const style = window.getComputedStyle(div);
-                                if (style.position === 'fixed' && style.zIndex > 1000) {
-                                    if (div.innerHTML.toLowerCase().includes('accessibility') || div.querySelector('iframe')) {
-                                        div.classList.add('injected-cmp-widget');
-                                        cmpWrapper = div;
-                                        break;
-                                    }
+                let cmpWrapper = document.querySelector('.cmp-accessibility-btn, iframe[src*="accessibility"], [id*="cmp-accessibility"], [class*="cmp-accessibility"], acc-widget, [data-acc-host], .injected-cmp-widget');
+
+                if (!cmpWrapper) {
+                    const directChildren = Array.from(document.body.children);
+                    for (const el of directChildren) {
+                        const tag = el.tagName;
+                        if (tag !== 'SCRIPT' && tag !== 'STYLE' && tag !== 'NOSCRIPT' && tag !== 'LINK' && el.id !== 'root' && el.id !== 'custom-legal-footer' && el.id !== 'portal-tab-custom' && el.id !== 'debug-fw-panel') {
+                            const style = window.getComputedStyle(el);
+                            if (style.position === 'fixed' || el.shadowRoot || parseInt(style.zIndex, 10) > 1000) {
+                                if (typeof el.className === 'string' && !el.className.toLowerCase().includes('chat') && !(el.id || '').toLowerCase().includes('chat')) {
+                                    el.classList.add('injected-cmp-widget');
+                                    cmpWrapper = el;
+                                    break;
                                 }
                             }
                         }
                     }
+                }
 
-                    if (cmpWrapper && cmpWrapper.parentElement !== getStartedBtn.parentElement) {
-                        cmpWrapper.style.setProperty('position', 'relative', 'important');
+                // Temporary Debug Panel
+                let dbg = document.getElementById('debug-fw-panel');
+                if (!dbg) {
+                    dbg = document.createElement('div');
+                    dbg.id = 'debug-fw-panel';
+                    dbg.style.cssText = 'position:fixed;top:5px;left:5px;background:#000;color:#0f0;padding:5px 8px;font-family:monospace;font-size:12px;z-index:9999999;border-radius:4px;border:1px solid #0f0;pointer-events:none;';
+                    document.body.appendChild(dbg);
+                }
+                dbg.innerHTML = `GetStartedBtn: ${getStartedBtn ? 'FOUND ('+getStartedBtn.tagName+')' : 'MISSING'}<br>Widget: ${cmpWrapper ? 'FOUND ('+cmpWrapper.tagName+')' : 'MISSING'}`;
+
+                // Try both visual absolute positioning and native placement if needed
+                if (getStartedBtn && cmpWrapper) {
+                    const rect = getStartedBtn.getBoundingClientRect();
+                    
+                    if (rect.width > 0 && rect.top >= 0) {
+                        cmpWrapper.style.setProperty('position', 'fixed', 'important');
                         cmpWrapper.style.setProperty('bottom', 'auto', 'important');
                         cmpWrapper.style.setProperty('right', 'auto', 'important');
-                        cmpWrapper.style.setProperty('left', 'auto', 'important');
-                        cmpWrapper.style.setProperty('top', 'auto', 'important');
-                        cmpWrapper.style.setProperty('margin-right', '16px', 'important');
-                        cmpWrapper.style.setProperty('z-index', '9999', 'important');
-                        cmpWrapper.style.setProperty('display', 'flex', 'important');
-                        cmpWrapper.style.setProperty('align-items', 'center', 'important');
-                        getStartedBtn.parentElement.insertBefore(cmpWrapper, getStartedBtn);
+                        cmpWrapper.style.setProperty('margin', '0', 'important');
+                        cmpWrapper.style.setProperty('transform', 'none', 'important');
+                        
+                        const cmpWidth = cmpWrapper.offsetWidth || 50; 
+                        const cmpHeight = cmpWrapper.offsetHeight || 50;
+                        const topPos = rect.top + (rect.height / 2) - (cmpHeight / 2);
+                        const leftPos = rect.left - cmpWidth - 16;
+
+                        cmpWrapper.style.setProperty('top', topPos + 'px', 'important');
+                        cmpWrapper.style.setProperty('left', leftPos + 'px', 'important');
+                        cmpWrapper.style.setProperty('z-index', '99999', 'important');
+                        cmpWrapper.style.setProperty('display', 'block', 'important');
+                        cmpWrapper.style.setProperty('visibility', 'visible', 'important');
+                        cmpWrapper.style.setProperty('opacity', '1', 'important');
+                        
+                        dbg.innerHTML += `<br>Pos: x=${Math.round(leftPos)} y=${Math.round(topPos)}`;
+                    } else {
+                        dbg.innerHTML += `<br>Btn Rect: Hidden (w=${rect.width}, t=${rect.top})`;
                     }
                 }
             } catch (e) {
