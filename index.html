@@ -131,6 +131,47 @@
             document.documentElement.style.setProperty('overflow', 'auto', 'important');
             document.body.style.setProperty('overflow', 'auto', 'important');
 
+            // Move Accessibility Widget to Nav Bar
+            try {
+                const getStartedBtn = Array.from(document.querySelectorAll('button, a, div')).find(el => el.textContent && el.textContent.trim() === 'Get Started');
+                if (getStartedBtn) {
+                    let cmpWrapper = document.querySelector('.cmp-accessibility-btn') || 
+                                     document.querySelector('iframe[src*="accessibility"]')?.closest('div') || 
+                                     document.querySelector('[id*="cmp-accessibility"], [class*="cmp-accessibility"]');
+
+                    if (!cmpWrapper) {
+                        const bodyDivs = Array.from(document.body.children).filter(el => el.tagName === 'DIV');
+                        for (const div of bodyDivs) {
+                            if (div.id !== 'root' && div.id !== 'custom-legal-footer' && div.id !== 'ccrm-login-gate') {
+                                const style = window.getComputedStyle(div);
+                                if (style.position === 'fixed' && style.zIndex > 1000) {
+                                    if (div.innerHTML.toLowerCase().includes('accessibility') || div.querySelector('iframe')) {
+                                        div.classList.add('injected-cmp-widget');
+                                        cmpWrapper = div;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (cmpWrapper && cmpWrapper.parentElement !== getStartedBtn.parentElement) {
+                        cmpWrapper.style.setProperty('position', 'relative', 'important');
+                        cmpWrapper.style.setProperty('bottom', 'auto', 'important');
+                        cmpWrapper.style.setProperty('right', 'auto', 'important');
+                        cmpWrapper.style.setProperty('left', 'auto', 'important');
+                        cmpWrapper.style.setProperty('top', 'auto', 'important');
+                        cmpWrapper.style.setProperty('margin-right', '16px', 'important');
+                        cmpWrapper.style.setProperty('z-index', '9999', 'important');
+                        cmpWrapper.style.setProperty('display', 'flex', 'important');
+                        cmpWrapper.style.setProperty('align-items', 'center', 'important');
+                        getStartedBtn.parentElement.insertBefore(cmpWrapper, getStartedBtn);
+                    }
+                }
+            } catch (e) {
+                console.error('Error repositioning accessibility widget:', e);
+            }
+
             injectLegalFooter();
 
             document.querySelectorAll('button, a, span, div, p').forEach(el => {
