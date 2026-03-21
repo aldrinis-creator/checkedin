@@ -142,7 +142,8 @@
                     }
                 }
 
-                let cmpWrapper = document.querySelector('.cmp-accessibility-btn, iframe[src*="accessibility"], [id*="cmp-accessibility"], [class*="cmp-accessibility"], acc-widget, [data-acc-host], .injected-cmp-widget');
+                let cmpWrapperCandidates = document.querySelectorAll('.cmp-accessibility-btn, iframe[src*="accessibility"], [id*="cmp-accessibility"], [class*="cmp-accessibility"], acc-widget, .injected-cmp-widget');
+                let cmpWrapper = Array.from(cmpWrapperCandidates).find(el => el.tagName !== 'SCRIPT');
 
                 if (!cmpWrapper) {
                     const directChildren = Array.from(document.body.children);
