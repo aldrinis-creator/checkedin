@@ -257,11 +257,20 @@
                 // Ensure it's actually acting as a link/button
                 if (window.getComputedStyle(target).cursor === 'pointer' || target.tagName === 'A' || target.tagName === 'BUTTON') {
                     e.preventDefault();
-                    // Find the Get in Touch section header
-                    const headers = document.querySelectorAll('h1, h2, h3, h4, div, span');
+                    // Find the Get in Touch section header or the pill above it
+                    const headers = document.querySelectorAll('h1, h2, h3, h4, div, span, p');
                     for (let h of headers) {
-                        if (h.textContent.trim().toLowerCase() === 'get in touch') {
-                            h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        const txt = h.textContent.trim().toLowerCase();
+                        if (txt === 'get in touch' || txt === "we'd love to hear from you") {
+                            // Find the parent section to ensure we don't cut off the top
+                            const section = h.closest('section');
+                            if (section) {
+                                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            } else {
+                                // Fallback to absolute positioning with an offset so the pill isn't cut off
+                                const y = h.getBoundingClientRect().top + window.scrollY - 80;
+                                window.scrollTo({ top: y, behavior: 'smooth' });
+                            }
                             return; // Stop after scrolling
                         }
                     }
