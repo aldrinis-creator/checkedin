@@ -245,10 +245,27 @@
                 }
 
                 if (el.children.length === 0) {
-                    if (text.includes('San Francisco - proposed') || text.includes('Bangalore - proposed') || text === 'Mumbai, Maharashtra 400051') {
-                        if (text !== 'The Office is in Mumbai, Maharashtra 400051') {
-                            el.textContent = 'The Office is in Mumbai, Maharashtra 400051';
-                        }
+                    // Address update
+                    if (text.includes('San Francisco - proposed') || text.includes('Bangalore - proposed') || text.includes('560001')) {
+                        el.textContent = 'Mumbai, Maharashtra, INDIA 400051';
+                    }
+                    // Phone update (targeting the pattern in the screenshot)
+                    if (text.includes('+91') && (text.includes('9') || text.includes('x'))) {
+                        el.textContent = '+91 7045868482';
+                    }
+                    // Email update
+                    if (text === 'sales@futurewave.in') {
+                        el.textContent = 'checkin_support@futurewave.in';
+                    }
+                }
+
+                // Update Link Hrefs
+                if (el.tagName === 'A') {
+                    if (el.href.includes('mailto:sales@futurewave.in')) {
+                        el.href = 'mailto:checkin_support@futurewave.in';
+                    }
+                    if (el.href.startsWith('tel:') && (el.href.includes('9') || el.href.includes('x'))) {
+                        el.href = 'tel:+917045868482';
                     }
                 }
             });
