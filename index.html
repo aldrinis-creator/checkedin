@@ -244,46 +244,50 @@
                     }
                 }
 
+                // Update Phone/WhatsApp/Email across the entire site
                 if (el.children.length === 0) {
-                    // Address update
-                    if (text.includes('Bangalore, Karnataka') || text.includes('San Francisco - proposed') || text.includes('Bangalore - proposed') || text.includes('560001')) {
-                        el.textContent = 'Mumbai, Maharashtra, INDIA 400051';
-                    }
-                    if (text === 'Bangalore, Karnataka') {
-                         el.textContent = 'Mumbai, Maharashtra';
-                    }
-
-                    // Phone update
-                    if (text.includes('+91') && (text.includes('9') || text.includes('x'))) {
-                        if (text.includes('Call')) {
-                            el.textContent = 'Call +91 7045868482';
-                        } else {
-                            el.textContent = '+91 7045868482';
+                    // 1. Address update
+                    if (text.includes('Bangalore') || text.includes('San Francisco') || text.includes('560001')) {
+                        let newText = text;
+                        newText = newText.replace(/Bangalore, Karnataka|Bangalore - proposed|San Francisco - proposed/g, 'Mumbai, Maharashtra');
+                        newText = newText.replace(/560001/g, '400051');
+                        if (el.textContent !== newText) {
+                            el.textContent = newText;
                         }
                     }
 
-                    // Email update
+                    // 2. Phone / Callback / WhatsApp Number update
+                    const phonePattern = /\+91\s?9[x\d\s-]{8,15}7/g; // Catch common mobile placeholder patterns
+                    if (text.includes('+91') || text.includes('7045868482') || phonePattern.test(text)) {
+                        el.textContent = text.replace(/\+91\s?9[x\d\s-]{8,15}7|\+91\s?\d{10}/g, '+91 7045868482');
+                    }
+
+                    // 3. Email update
                     if (text.includes('sales@futurewave.in')) {
-                        if (text.includes('Email')) {
-                            el.textContent = 'Email checkin_support@futurewave.in';
-                        } else {
-                            el.textContent = 'checkin_support@futurewave.in';
-                        }
+                        el.textContent = text.replace(/sales@futurewave.in/g, 'checkin_support@futurewave.in');
                     }
 
-                    // Description text update
+                    // 4. Description text update
                     if (text.includes('ensures seniors living alone are safe, healthy, and never truly alone')) {
                         el.textContent = 'Check-iN is an AI-powered health companion that solves the Uncertaininty in living alone for senior citizens and lone dwellers, using an AI-powered app that has simple check-ins. instant alerts to Guardians and health tools that enable Users to track their wellness and vital health .';
                     }
                 }
 
-                // Update Link Hrefs
-                if (el.tagName === 'A') {
-                    if (el.href.includes('mailto:sales@futurewave.in')) {
-                        el.href = 'mailto:checkin_support@futurewave.in';
+                // Update Link Hrefs & Specific Buttons
+                const link = el.tagName === 'A' ? el : el.closest('a');
+                if (link) {
+                    const lText = link.textContent.trim().toLowerCase();
+                    const lHref = link.href.toLowerCase();
+
+                    // Specific Link Targets
+                    if (lText.includes('email') || lText.includes('support') || lHref.includes('mailto:')) {
+                        link.href = 'mailto:checkin_support@futurewave.in';
                     }
-                    if (el.href.startsWith('tel:') && (el.href.includes('9') || el.href.includes('x'))) {
-                        el.href = 'tel:+917045868482';
+                    if (lText.includes('whatsapp') || lHref.includes('wa.me')) {
+                        link.href = 'https://wa.me/917045868482';
+                    }
+                    if (lText.includes('call') || lText.includes('callback') || lText.includes('phone') || lHref.includes('tel:')) {
+                        link.href = 'tel:+917045868482';
                     }
                 }
             });
