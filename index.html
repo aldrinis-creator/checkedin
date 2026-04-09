@@ -330,6 +330,36 @@
                     }
                 }
             }
+
+            // Handle "Send Message" form submission intercept
+            if (text === 'send message' || text.includes('send message')) {
+                const isClickable = window.getComputedStyle(target).cursor === 'pointer' || target.tagName === 'A' || target.tagName === 'BUTTON';
+                if (isClickable) {
+                    e.preventDefault();
+                    let subject = "Inquiry from Futurewave.in";
+                    let body = "";
+                    
+                    const form = target.closest('form');
+                    if (form) {
+                        const inputs = form.querySelectorAll('input, document, textarea');
+                        inputs.forEach(input => {
+                            const name = input.getAttribute('placeholder') || input.name || 'Field';
+                            body += `${name}: ${input.value}\n\n`;
+                        });
+                    } else {
+                        // Fallback if the inputs aren't in a <form> tag (common in SPA frameworks)
+                        const container = target.closest('div[class*="mt-"]' ) || target.closest('section') || document;
+                        const inputs = container.querySelectorAll('input, textarea');
+                        inputs.forEach(input => {
+                            const name = input.getAttribute('placeholder') || input.name || 'Field';
+                            body += `${name}: ${input.value}\n\n`;
+                        });
+                    }
+
+                    const mailtoLink = `mailto:checkin_support@futurewave.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                    window.location.href = mailtoLink;
+                }
+            }
         });
     </script>
     <script src="https://static.famous.ai/events.js"></script>
