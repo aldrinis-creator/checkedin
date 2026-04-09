@@ -246,16 +246,34 @@
 
                 if (el.children.length === 0) {
                     // Address update
-                    if (text.includes('San Francisco - proposed') || text.includes('Bangalore - proposed') || text.includes('560001')) {
+                    if (text.includes('Bangalore, Karnataka') || text.includes('San Francisco - proposed') || text.includes('Bangalore - proposed') || text.includes('560001')) {
                         el.textContent = 'Mumbai, Maharashtra, INDIA 400051';
                     }
-                    // Phone update (targeting the pattern in the screenshot)
-                    if (text.includes('+91') && (text.includes('9') || text.includes('x'))) {
-                        el.textContent = '+91 7045868482';
+                    if (text === 'Bangalore, Karnataka') {
+                         el.textContent = 'Mumbai, Maharashtra';
                     }
+
+                    // Phone update
+                    if (text.includes('+91') && (text.includes('9') || text.includes('x'))) {
+                        if (text.includes('Call')) {
+                            el.textContent = 'Call +91 7045868482';
+                        } else {
+                            el.textContent = '+91 7045868482';
+                        }
+                    }
+
                     // Email update
-                    if (text === 'sales@futurewave.in') {
-                        el.textContent = 'checkin_support@futurewave.in';
+                    if (text.includes('sales@futurewave.in')) {
+                        if (text.includes('Email')) {
+                            el.textContent = 'Email checkin_support@futurewave.in';
+                        } else {
+                            el.textContent = 'checkin_support@futurewave.in';
+                        }
+                    }
+
+                    // Description text update
+                    if (text.includes('ensures seniors living alone are safe, healthy, and never truly alone')) {
+                        el.textContent = 'Check-iN is an AI-powered health companion that solves the Uncertaininty in living alone for senior citizens and lone dwellers, using an AI-powered app that has simple check-ins. instant alerts to Guardians and health tools that enable Users to track their wellness and vital health .';
                     }
                 }
 
