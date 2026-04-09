@@ -245,54 +245,67 @@
                 }
 
                 // Update Link Hrefs & Specific Buttons
+            try {
+                // Update Link Hrefs & Specific Buttons
                 const link = el.tagName === 'A' ? el : el.closest('a');
                 if (link) {
-                    const lText = link.textContent.trim().toLowerCase();
-                    const lHref = link.href.toLowerCase();
+                    const lText = link.textContent ? link.textContent.trim().toLowerCase() : '';
+                    let lHref = link.getAttribute('href') || '';
+                    if (typeof link.href === 'string') {
+                        lHref = link.href; // Get absolute URL if possible
+                    }
+                    lHref = lHref.toLowerCase();
 
                     // Specific Link Targets
                     if (lText.includes('email') || lText.includes('support') || lHref.includes('mailto:')) {
-                        link.href = 'mailto:checkin_support@futurewave.in';
+                        link.setAttribute('href', 'mailto:checkin_support@futurewave.in');
                     }
                     if (lText.includes('whatsapp') || lHref.includes('wa.me')) {
-                        link.href = 'https://wa.me/917045868482';
+                        link.setAttribute('href', 'https://wa.me/917045868482');
                     }
                     if (lText.includes('call') || lText.includes('callback') || lText.includes('phone') || lHref.includes('tel:')) {
-                        link.href = 'tel:+917045868482';
+                        link.setAttribute('href', 'tel:+917045868482');
                     }
                 }
+            } catch (e) {
+                console.error('Error processing links in applyFixes:', e);
+            }
             });
 
             // Advanced TextNode Replacements (Preserves HTML structure like <br>)
-            const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-            let n;
-            while(n = walk.nextNode()) {
-                let v = n.nodeValue;
-                if (!v.trim()) continue;
+            try {
+                const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+                let n;
+                while(n = walk.nextNode()) {
+                    let v = n.nodeValue;
+                    if (!v || !v.trim()) continue;
 
-                // 1. Address update
-                if (v.includes('Bangalore') || v.includes('San Francisco') || v.includes('560001')) {
-                    v = v.replace(/Bangalore,\s*Karnataka|Bangalore\s*-\s*proposed|San Francisco\s*-\s*proposed/g, 'Mumbai, Maharashtra');
-                    v = v.replace(/560001/g, '400051');
+                    // 1. Address update
+                    if (v.includes('Bangalore') || v.includes('San Francisco') || v.includes('560001')) {
+                        v = v.replace(/Bangalore,\s*Karnataka|Bangalore\s*-\s*proposed|San Francisco\s*-\s*proposed/g, 'Mumbai, Maharashtra');
+                        v = v.replace(/560001/g, '400051');
+                    }
+
+                    // 2. Phone update
+                    const phonePattern = /\+91\s?9[x\d\s-]{8,15}7/g;
+                    if (v.includes('+91') || v.includes('7045868482') || phonePattern.test(v)) {
+                        v = v.replace(/\+91\s?9[x\d\s-]{8,15}7|\+91\s?\d{10}/g, '+91 7045868482');
+                    }
+
+                    // 3. Email update
+                    if (v.includes('sales@futurewave.in')) {
+                        v = v.replace(/sales@futurewave.in/g, 'checkin_support@futurewave.in');
+                    }
+
+                    // 4. Description text update
+                    if (v.includes('ensures seniors living alone are safe, healthy, and never truly alone')) {
+                        v = v.replace(/Check-iN is an AI-powered health companion that ensures seniors living alone are safe, healthy, and never truly alone\. Simple check-ins\. Instant alerts\. Complete peace of mind for the whole family\./g, 'Check-iN is an AI-powered health companion that solves the Uncertaininty in living alone for senior citizens and lone dwellers, using an AI-powered app that has simple check-ins. instant alerts to Guardians and health tools that enable Users to track their wellness and vital health .');
+                    }
+
+                    if (n.nodeValue !== v) n.nodeValue = v;
                 }
-
-                // 2. Phone update
-                const phonePattern = /\+91\s?9[x\d\s-]{8,15}7/g;
-                if (v.includes('+91') || v.includes('7045868482') || phonePattern.test(v)) {
-                    v = v.replace(/\+91\s?9[x\d\s-]{8,15}7|\+91\s?\d{10}/g, '+91 7045868482');
-                }
-
-                // 3. Email update
-                if (v.includes('sales@futurewave.in')) {
-                    v = v.replace(/sales@futurewave.in/g, 'checkin_support@futurewave.in');
-                }
-
-                // 4. Description text update
-                if (v.includes('ensures seniors living alone are safe, healthy, and never truly alone')) {
-                    v = v.replace(/Check-iN is an AI-powered health companion that ensures seniors living alone are safe, healthy, and never truly alone\. Simple check-ins\. Instant alerts\. Complete peace of mind for the whole family\./g, 'Check-iN is an AI-powered health companion that solves the Uncertaininty in living alone for senior citizens and lone dwellers, using an AI-powered app that has simple check-ins. instant alerts to Guardians and health tools that enable Users to track their wellness and vital health .');
-                }
-
-                if (n.nodeValue !== v) n.nodeValue = v;
+            } catch (e) {
+                console.error('Error in text node walker in applyFixes:', e);
             }
         };
 
