@@ -98,7 +98,7 @@
             if (!document.getElementById('custom-legal-footer')) {
                 const footer = document.createElement('div');
                 footer.id = 'custom-legal-footer';
-                footer.style.cssText = 'position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(15, 23, 42, 0.95); padding: 12px 20px; z-index: 2147483647; display: flex; justify-content: center; align-items: center; gap: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); flex-wrap: wrap; box-sizing: border-box; font-family: Inter, sans-serif; backdrop-filter: blur(5px);';
+                footer.style.cssText = 'position: relative; width: 100%; background: rgba(15, 23, 42, 0.95); padding: 24px 20px; z-index: 100; display: flex; justify-content: center; align-items: center; gap: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); flex-wrap: wrap; box-sizing: border-box; font-family: Inter, sans-serif; backdrop-filter: blur(5px); margin-top: 40px;';
                 
                 const legalTitle = document.createElement('span');
                 legalTitle.style.cssText = 'color: #94a3b8; font-weight: 600; font-size: 0.9rem;';
