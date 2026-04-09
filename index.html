@@ -294,25 +294,6 @@
 
                 if (n.nodeValue !== v) n.nodeValue = v;
             }
-
-                // Update Link Hrefs & Specific Buttons
-                const link = el.tagName === 'A' ? el : el.closest('a');
-                if (link) {
-                    const lText = link.textContent.trim().toLowerCase();
-                    const lHref = link.href.toLowerCase();
-
-                    // Specific Link Targets
-                    if (lText.includes('email') || lText.includes('support') || lHref.includes('mailto:')) {
-                        link.href = 'mailto:checkin_support@futurewave.in';
-                    }
-                    if (lText.includes('whatsapp') || lHref.includes('wa.me')) {
-                        link.href = 'https://wa.me/917045868482';
-                    }
-                    if (lText.includes('call') || lText.includes('callback') || lText.includes('phone') || lHref.includes('tel:')) {
-                        link.href = 'tel:+917045868482';
-                    }
-                }
-            });
         };
 
         // Run immediately and then frequently to combat SPA state changes
