@@ -59,7 +59,7 @@ window.__CUSTOM_PRICING_HTML__ = `
           <li class="flex items-start gap-3 opacity-50"><span class="w-5 h-5 mt-0.5 shrink-0"></span><span class="line-through">Advanced Vitals</span></li>
           <li class="flex items-start gap-3 opacity-50"><span class="w-5 h-5 mt-0.5 shrink-0"></span><span class="line-through">Priority Ambulance</span></li>
         </ul>
-        <button class="w-full py-3 px-4 rounded-xl font-medium text-[#1e293b] border border-slate-200 hover:border-[#1e293b] transition-colors flex items-center justify-center gap-2">Choose Basic <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></button>
+        <button id="btn-plan-basic" class="w-full py-3 px-4 rounded-xl font-medium text-[#1e293b] border border-slate-200 hover:border-[#1e293b] transition-colors flex items-center justify-center gap-2">Choose Basic <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></button>
       </div>
 
       <!-- Pro Plan -->
@@ -86,7 +86,7 @@ window.__CUSTOM_PRICING_HTML__ = `
           <li class="flex items-start gap-3"><svg class="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>PDF Export / Sharing</span></li>
           <li class="flex items-start gap-3"><svg class="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Journey Geofencing</span></li>
         </ul>
-        <button class="w-full py-3 px-4 rounded-xl font-medium text-white bg-[#1e293b] hover:bg-slate-800 transition-colors shadow-md hover:shadow-lg flex items-center justify-center gap-2">Go Pro <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></button>
+        <button id="btn-plan-pro" class="w-full py-3 px-4 rounded-xl font-medium text-white bg-[#1e293b] hover:bg-slate-800 transition-colors shadow-md hover:shadow-lg flex items-center justify-center gap-2">Go Pro <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></button>
       </div>
     </div>
     
