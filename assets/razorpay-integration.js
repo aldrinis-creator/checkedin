@@ -8,6 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btnBasic && btnPro) {
             clearInterval(interval);
 
+            // HMAC generator function
+            const generateSignature = async (secret, payloadStr) => {
+                const enc = new TextEncoder();
+                const key = await crypto.subtle.importKey(
+                    "raw", enc.encode(secret), {name: "HMAC", hash: "SHA-256"}, false, ["sign"]
+                );
+                const signatureBuffer = await crypto.subtle.sign("HMAC", key, enc.encode(payloadStr));
+                return Array.from(new Uint8Array(signatureBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+            };
+
             // Razorpay options config
             const createRazorpayOptions = (planName, amount) => {
                 return {
@@ -17,7 +27,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     "name": "Check-iN Health",
                     "description": `${planName} Subscription`,
                     "image": "https://senior-health-guardian.deploypad.app/placeholder.svg",
-                    "handler": function (response) {
+                    "handler": async function (response) {
+                        try {
+                            const WEBHOOK_SECRET = "REPLACE_ME_WITH_YOUR_SECRET"; // REPLACE THIS!
+                            const payloadObj = {
+                                amount_paise: amount * 100,
+                                billing_cycle: "monthly",
+                                plan_type: planName.toLowerCase(),
+                                razorpay_order_id: response.razorpay_order_id || "",
+                                razorpay_payment_id: response.razorpay_payment_id || "",
+                                user_id: "unknown_from_homepage"
+                            };
+                            
+                            const signPayload = JSON.stringify(payloadObj);
+                            const signature = await generateSignature(WEBHOOK_SECRET, signPayload);
+                            payloadObj.signature = signature;
+
+                            await fetch("https://magnrdegcegxdtgapyez.supabase.co/functions/v1/confirm-payment", {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(payloadObj)
+                            });
+                        } catch (e) {
+                            console.error("Webhook POST failed", e);
+                        }
+
                         // On success, redirect to Lovable App success callback
                         const redirectUrl = `https://iamgood.lovable.app/subscription?status=success&payment_id=${response.razorpay_payment_id}&plan=${planName.toLowerCase()}`;
                         window.location.href = redirectUrl;
