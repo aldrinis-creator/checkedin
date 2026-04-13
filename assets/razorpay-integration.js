@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Razorpay options config
             const createRazorpayOptions = (planName, amount) => {
                 return {
-                    "key": "rzp_test_placeholderkey", // User should replace this with actual Test/Live key
+                    "key": "rzp_live_SassCau6r4lvu5", // User should replace this with actual Test/Live key
                     "amount": amount * 100, // Amount is in currency subunits. 99 INR = 9900 paise.
                     "currency": "INR",
                     "name": "Check-iN Health",
