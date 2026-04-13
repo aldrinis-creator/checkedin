@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Payment...</title>
+    <style>
+        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        .loader { border: 4px solid #e2e8f0; border-top: 4px solid #0070c9; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 16px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .container { text-align: center; }
+        h1 { color: #1e293b; font-size: 1.25rem; }
+        p { color: #64748b; font-size: 0.875rem; }
+    </style>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="loader"></div>
+        <h1>Initializing Checkout...</h1>
+        <p>Please do not close this window.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const plan = params.get('plan') || 'basic';
+            const billing = params.get('billing') || 'monthly';
+            const userId = params.get('user_id');
+            const successUrl = params.get('app_callback') || 'https://iamgood.lovable.app/subscription?status=success';
+            const cancelUrl = params.get('cancel_url') || 'https://iamgood.lovable.app/subscription?status=cancelled';
+            
+            // Define pricing (should match your setup)
+            let baseAmount = plan.toLowerCase() === 'pro' ? 199 : 99;
+            if (billing === 'yearly') {
+                baseAmount = plan.toLowerCase() === 'pro' ? 1999 : 999;
+            }
+            
+            // You can also check for coupons here if needed, but for now we fallback to base amount
+            
+            const options = {
+                "key": "rzp_test_placeholderkey", // Replace with your Test/Live key
+                "amount": baseAmount * 100, // paise
+                "currency": "INR",
+                "name": "Check-iN Health",
+                "description": `${plan.charAt(0).toUpperCase() + plan.slice(1)} Subscription (${billing})`,
+                "image": "https://senior-health-guardian.deploypad.app/placeholder.svg",
+                "handler": function (response) {
+                    // Success callback
+                    window.location.href = `${successUrl}&payment_id=${response.razorpay_payment_id}`;
+                },
+                "prefill": {
+                    "name": "",
+                    "email": "",
+                    "contact": ""
+                },
+                "theme": {
+                    "color": "#1e293b"
+                },
+                "modal": {
+                    "ondismiss": function() {
+                        window.location.href = cancelUrl;
+                    }
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            
+            // Handle Razorpay payment failure
+            rzp.on('payment.failed', function (response){
+                 alert(response.error.description);
+                 window.location.href = cancelUrl;
+            });
+            
+            // Add a small delay to ensure script loaded properly
+            setTimeout(() => {
+                rzp.open();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
