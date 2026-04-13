@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     "image": "https://senior-health-guardian.deploypad.app/placeholder.svg",
                     "handler": async function (response) {
                         try {
-                            const WEBHOOK_SECRET = "REPLACE_ME_WITH_YOUR_SECRET"; // REPLACE THIS!
+                            const WEBHOOK_SECRET = "BV2vVymyG27wTFk1r23f5Y3r"; // REPLACE THIS!
                             const payloadObj = {
                                 amount_paise: amount * 100,
                                 billing_cycle: "monthly",
