@@ -23,9 +23,9 @@ window.__CUSTOM_PRICING_HTML__ = `
       <h2 class="text-3xl md:text-4xl font-bold text-[#1e293b] mb-4" style="font-family: Outfit, sans-serif;">Choose Your Plan</h2>
       <p class="text-slate-500 text-lg">Upgrade for advanced safety features and peace of mind.</p>
       <div class="mt-6 flex items-center justify-center">
-          <div class="bg-slate-50 p-1 rounded-xl inline-flex shadow-sm border border-slate-100">
-              <button id="btn-toggle-monthly" class="bg-[#1e293b] text-white px-6 py-2 rounded-lg font-medium text-sm transition-all focus:outline-none shadow-sm">Monthly</button>
-              <button id="btn-toggle-yearly" class="px-6 py-2 text-slate-500 font-medium text-sm transition-all hover:text-[#1e293b] focus:outline-none">Yearly (Save 16%)</button>
+          <div style="background-color: #f1f5f9; padding: 4px; border-radius: 12px; display: inline-flex; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0;">
+              <button id="btn-toggle-monthly" style="background-color: #0070c9; color: white; padding: 8px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; border: none; cursor: pointer; transition: all 0.2s;">Monthly</button>
+              <button id="btn-toggle-yearly" style="background-color: transparent; color: #64748b; padding: 8px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; border: none; cursor: pointer; transition: all 0.2s;">Yearly (Save 16%)</button>
           </div>
       </div>
     </div>

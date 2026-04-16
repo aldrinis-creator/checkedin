@@ -18,15 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Update Button Styles
                 if(isYearly) {
-                    btnYearly.classList.replace('text-slate-500', 'bg-[#1e293b]');
-                    btnYearly.classList.replace('hover:text-[#1e293b]', 'text-white');
-                    btnMonthly.classList.replace('bg-[#1e293b]', 'text-slate-500');
-                    btnMonthly.classList.replace('text-white', 'hover:text-[#1e293b]');
+                    btnYearly.style.backgroundColor = '#0070c9';
+                    btnYearly.style.color = 'white';
+                    btnMonthly.style.backgroundColor = 'transparent';
+                    btnMonthly.style.color = '#64748b';
                 } else {
-                    btnMonthly.classList.replace('text-slate-500', 'bg-[#1e293b]');
-                    btnMonthly.classList.replace('hover:text-[#1e293b]', 'text-white');
-                    btnYearly.classList.replace('bg-[#1e293b]', 'text-slate-500');
-                    btnYearly.classList.replace('text-white', 'hover:text-[#1e293b]');
+                    btnMonthly.style.backgroundColor = '#0070c9';
+                    btnMonthly.style.color = 'white';
+                    btnYearly.style.backgroundColor = 'transparent';
+                    btnYearly.style.color = '#64748b';
                 }
 
                 // Update Displayed Values
