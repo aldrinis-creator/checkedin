@@ -167,17 +167,35 @@
                     }
                 }
 
-                // Inject Custom Pricing Table safely without destroying React's DOM
+                // Inject Custom Pricing Table via Absolute Overlay (Zero DOM interference inside #root)
                 let pricingSection = document.getElementById('pricing');
-                if (pricingSection && !pricingSection.hasAttribute('data-custom-pricing')) {
-                    const customContainer = document.createElement('div');
-                    customContainer.innerHTML = window.__CUSTOM_PRICING_HTML__;
-                    pricingSection.parentElement.insertBefore(customContainer, pricingSection.nextSibling);
-                    pricingSection.style.display = 'none'; // Hide the React-rendered pricing
-                    pricingSection.setAttribute('data-custom-pricing', 'true');
+                if (pricingSection) {
+                    if (pricingSection.style.opacity !== '0') {
+                        pricingSection.style.opacity = '0';
+                        pricingSection.style.pointerEvents = 'none';
+                    }
+
+                    let overlay = document.getElementById('marketing-pricing-overlay');
+                    if (!overlay) {
+                        overlay = document.createElement('div');
+                        overlay.id = 'marketing-pricing-overlay';
+                        overlay.innerHTML = window.__CUSTOM_PRICING_HTML__;
+                        overlay.style.position = 'absolute';
+                        overlay.style.width = '100%';
+                        overlay.style.left = '0';
+                        overlay.style.zIndex = '50';
+                        document.body.appendChild(overlay);
+                    }
+
+                    // Keep overlay perfectly snapped over the invisible React component
+                    const rect = pricingSection.getBoundingClientRect();
+                    overlay.style.top = (rect.top + window.scrollY) + 'px';
+                    
+                    // Force the hidden React section to maintain the height of our massive custom pricing block
+                    if (overlay.offsetHeight > 0) {
+                        pricingSection.style.height = overlay.offsetHeight + 'px';
+                    }
                 }
-
-
 
                 // Try both visual absolute positioning and native placement if needed
                 if (getStartedBtn && cmpWrapper) {
@@ -202,8 +220,6 @@
                         cmpWrapper.style.setProperty('visibility', 'visible', 'important');
                         cmpWrapper.style.setProperty('opacity', '1', 'important');
                         
-                    } else {
-                        // Position fallback if button hidden
                     }
                 }
             } catch (e) {
@@ -211,105 +227,6 @@
             }
 
             injectLegalFooter();
-
-            document.querySelectorAll('button, a, span, div, p').forEach(el => {
-                const text = el.textContent.trim();
-                const lowerText = text.toLowerCase();
-
-                if (el.tagName === 'BUTTON' && el.querySelector('svg')) {
-                    if(el.classList.contains('hide-element')) el.classList.remove('hide-element');
-                    const style = window.getComputedStyle(el);
-                    if (style.position === 'fixed') {
-                        el.style.setProperty('display', 'flex', 'important');
-                        el.style.setProperty('visibility', 'visible', 'important');
-                        el.style.setProperty('opacity', '1', 'important');
-                        el.style.setProperty('z-index', '9999', 'important');
-                    }
-                }
-
-                if (!text) return;
-
-                if (lowerText === 'explore app' || text === 'Admin') {
-                    const target = el.closest('button') || el.closest('a') || el;
-                    if (target) {
-                        target.classList.add('hide-element');
-                    }
-                }
-
-                if (lowerText.includes('introductory')) {
-                    if (el.children.length === 0) {
-                        const target = el.closest('div') || el;
-                        if (target.textContent.length < 200) {
-                            target.classList.add('hide-element');
-                        } else {
-                            el.classList.add('hide-element');
-                        }
-                    }
-                }
-
-                // Update Link Hrefs & Specific Buttons
-            try {
-                // Update Link Hrefs & Specific Buttons
-                const link = el.tagName === 'A' ? el : el.closest('a');
-                if (link) {
-                    const lText = link.textContent ? link.textContent.trim().toLowerCase() : '';
-                    let lHref = link.getAttribute('href') || '';
-                    if (typeof link.href === 'string') {
-                        lHref = link.href; // Get absolute URL if possible
-                    }
-                    lHref = lHref.toLowerCase();
-
-                    // Specific Link Targets
-                    if (lText.includes('email') || lText.includes('support') || lHref.includes('mailto:')) {
-                        link.setAttribute('href', 'mailto:checkin_support@futurewave.in');
-                    }
-                    if (lText.includes('whatsapp') || lHref.includes('wa.me')) {
-                        link.setAttribute('href', 'https://wa.me/917045868482');
-                    }
-                    if (lText.includes('call') || lText.includes('callback') || lText.includes('phone') || lHref.includes('tel:')) {
-                        link.setAttribute('href', 'tel:+917045868482');
-                    }
-                }
-            } catch (e) {
-                console.error('Error processing links in applyFixes:', e);
-            }
-            });
-
-            // Advanced TextNode Replacements (Preserves HTML structure like <br>)
-            try {
-                const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-                let n;
-                while(n = walk.nextNode()) {
-                    let v = n.nodeValue;
-                    if (!v || !v.trim()) continue;
-
-                    // 1. Address update
-                    if (v.includes('Bangalore') || v.includes('San Francisco') || v.includes('560001')) {
-                        v = v.replace(/Bangalore,\s*Karnataka|Bangalore\s*-\s*proposed|San Francisco\s*-\s*proposed/g, 'Mumbai, Maharashtra');
-                        v = v.replace(/560001/g, '400051');
-                    }
-
-                    // 2. Phone update
-                    const phonePattern = /\+91\s?9[x\d\s-]{8,15}7/g;
-                    if (v.includes('+91') || v.includes('7045868482') || phonePattern.test(v)) {
-                        v = v.replace(/\+91\s?9[x\d\s-]{8,15}7|\+91\s?\d{10}/g, '+91 7045868482');
-                    }
-
-                    // 3. Email update
-                    if (v.includes('sales@futurewave.in')) {
-                        v = v.replace(/sales@futurewave.in/g, 'checkin_support@futurewave.in');
-                    }
-
-                    // 4. Description text update
-                    if (v.includes('ensures seniors living alone are safe, healthy, and never truly alone')) {
-                        v = v.replace(/Check-iN is an AI-powered health companion that ensures seniors living alone are safe, healthy, and never truly alone\. Simple check-ins\. Instant alerts\. Complete peace of mind for the whole family\./g, 'Check-iN is an AI-powered health companion that solves the Uncertaininty in living alone for senior citizens and lone dwellers, using an AI-powered app that has simple check-ins. instant alerts to Guardians and health tools that enable Users to track their wellness and vital health .');
-                    }
-
-                    if (n.nodeValue !== v) n.nodeValue = v;
-                }
-            } catch (e) {
-                console.error('Error in text node walker in applyFixes:', e);
-            }
         };
 
         // Run immediately and then frequently to combat SPA state changes
