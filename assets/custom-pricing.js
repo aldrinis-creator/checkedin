@@ -54,7 +54,7 @@ window.__CUSTOM_PRICING_HTML__ = `
             <li class="flex items-start gap-3 opacity-50"><span class="w-5 h-5 mt-0.5 shrink-0"></span><span class="line-through">AI Health Tools</span></li>
           </ul>
         </div>
-        <button id="btn-plan-basic" data-plan="Basic" data-amount="99" data-cycle="monthly" class="w-full py-3 px-4 rounded-xl font-medium text-[#1e293b] border border-slate-200 hover:border-[#1e293b] transition-colors flex items-center justify-center gap-2 mt-auto">Choose Basic</button>
+        <button id="btn-plan-basic" data-plan="Basic" data-amount="99" data-cycle="monthly" class="w-full py-3 px-4 rounded-xl font-medium text-[#1e293b] border border-slate-200 transition-colors flex items-center justify-center gap-2 mt-auto" style="border-width: 1px; color: #1e293b; background-color: #f8fafc;">Choose Basic</button>
       </div>
 
       <!-- Premium Plan -->
@@ -81,7 +81,7 @@ window.__CUSTOM_PRICING_HTML__ = `
             <li class="flex items-start gap-3 opacity-50"><span class="w-5 h-5 mt-0.5 shrink-0"></span><span class="line-through">5 Guardians</span></li>
           </ul>
         </div>
-        <button id="btn-plan-pro" data-plan="Premium" data-amount="199" data-cycle="monthly" class="w-full py-3 px-4 rounded-xl font-medium text-white bg-[#1e293b] hover:bg-slate-800 transition-colors shadow-md hover:shadow-lg flex items-center justify-center gap-2 mt-auto">Go Premium</button>
+        <button id="btn-plan-pro" data-plan="Premium" data-amount="199" data-cycle="monthly" class="w-full py-3 px-4 rounded-xl font-medium text-white transition-colors shadow-md flex items-center justify-center gap-2 mt-auto" style="background-color: #1e293b; color: white; border: none;">Go Premium</button>
       </div>
 
       <!-- Premium Plus Plan -->
@@ -112,7 +112,7 @@ window.__CUSTOM_PRICING_HTML__ = `
             <li class="flex items-start gap-3"><svg class="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Connectivity using Bluetooth, Mobile / Satellite networks</span></li>
           </ul>
         </div>
-        <button id="btn-plan-premium-plus" data-plan="Premium Plus" data-amount="999" data-cycle="monthly" class="w-full py-3 px-4 rounded-xl font-medium text-white bg-purple-600 hover:bg-purple-700 transition-colors shadow-md flex items-center justify-center gap-2 mt-auto">Get Smart Ring Bundle</button>
+        <button id="btn-plan-premium-plus" data-plan="Premium Plus" data-amount="999" data-cycle="monthly" class="w-full py-3 px-4 rounded-xl font-medium text-white transition-colors shadow-md flex items-center justify-center gap-2 mt-auto" style="background-color: #9333ea; color: white; border: none;">Get Smart Ring Bundle</button>
       </div>
 
     </div>
