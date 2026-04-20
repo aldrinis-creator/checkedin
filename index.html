@@ -167,13 +167,14 @@
                     }
                 }
 
-                // Inject Custom Pricing Table
+                // Inject Custom Pricing Table safely without destroying React's DOM
                 let pricingSection = document.getElementById('pricing');
                 if (pricingSection && !pricingSection.hasAttribute('data-custom-pricing')) {
-                    // Replace the contents completely with our custom UI
-                    pricingSection.innerHTML = window.__CUSTOM_PRICING_HTML__;
+                    const customContainer = document.createElement('div');
+                    customContainer.innerHTML = window.__CUSTOM_PRICING_HTML__;
+                    pricingSection.parentElement.insertBefore(customContainer, pricingSection.nextSibling);
+                    pricingSection.style.display = 'none'; // Hide the React-rendered pricing
                     pricingSection.setAttribute('data-custom-pricing', 'true');
-                    pricingSection.style.padding = '0'; // Overwrite default padding
                 }
 
 
@@ -218,11 +219,11 @@
                 if (el.tagName === 'BUTTON' && el.querySelector('svg')) {
                     if(el.classList.contains('hide-element')) el.classList.remove('hide-element');
                     const style = window.getComputedStyle(el);
-                    if (style.position === 'fixed' || style.position === 'absolute') {
+                    if (style.position === 'fixed') {
                         el.style.setProperty('display', 'flex', 'important');
                         el.style.setProperty('visibility', 'visible', 'important');
                         el.style.setProperty('opacity', '1', 'important');
-                        el.style.setProperty('z-index', '99999', 'important');
+                        el.style.setProperty('z-index', '9999', 'important');
                     }
                 }
 
