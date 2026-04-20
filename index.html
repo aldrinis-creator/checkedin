@@ -269,8 +269,8 @@
                 }
             }
 
-            // Handle "Send Message" form submission intercept
-            if (text === 'send message' || text.includes('send message')) {
+            // Handle "Send Message" / "Notify Me" form submission intercept
+            if (text === 'send message' || text.includes('send message') || text === 'notify me' || text.includes('notify me')) {
                 const isClickable = window.getComputedStyle(target).cursor === 'pointer' || target.tagName === 'A' || target.tagName === 'BUTTON';
                 if (isClickable) {
                     e.preventDefault();
