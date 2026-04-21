@@ -192,17 +192,81 @@
 
             if (isClickable && (text === 'send message' || text === 'notify me')) {
                 e.preventDefault();
-                let subject = text === 'notify me' ? "Pre-Registration from Futurewave.in" : "Inquiry from Futurewave.in";
-                let body = "";
                 
                 const container = target.closest('form') || target.closest('div[class*="mt-"]') || target.closest('section') || document;
                 const inputs = container.querySelectorAll('input, document, textarea');
+                
+                let extractedEmail = '';
+                let extractedName = '';
+                let extractedPhone = '';
+                let bodyText = "";
+
                 inputs.forEach(input => {
-                    const name = input.getAttribute('placeholder') || input.name || 'Field';
-                    body += `${name}: ${input.value}\n\n`;
+                    const nameAttr = (input.getAttribute('placeholder') || input.name || '').toLowerCase();
+                    const val = input.value;
+                    bodyText += `${nameAttr || 'Field'}: ${val}\n\n`;
+                    
+                    if (nameAttr.includes('email') || input.type === 'email') extractedEmail = val;
+                    else if (nameAttr.includes('name')) extractedName = val;
+                    else if (nameAttr.includes('phone') || input.type === 'tel') extractedPhone = val;
                 });
 
-                window.location.href = `mailto:checkin_support@futurewave.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                // If this is a Notify Me request and we successfully captured an email, route to Supabase Database
+                if (text === 'notify me' && extractedEmail) {
+                    const originalText = target.textContent;
+                    target.textContent = 'Registering...';
+                    target.style.pointerEvents = 'none';
+                    target.style.opacity = '0.7';
+
+                    const SUPABASE_URL = "https://magnrdegcegxdtgapyez.supabase.co";
+                    const ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1hZ25yZGVnY2VneGR0Z2FweWV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NTI5MTYsImV4cCI6MjA4OTQyODkxNn0.GEsHJs4uD-UVrdlgepE6nbjZBmjDICGZ4sR6a3zMv48";
+                    
+                    const payload = {
+                        email: extractedEmail,
+                        full_name: extractedName || 'Web User',
+                        phone: extractedPhone || null,
+                        source: 'web-landing-page'
+                    };
+
+                    fetch(`${SUPABASE_URL}/rest/v1/premium_plus_waitlist`, {
+                        method: 'POST',
+                        headers: {
+                            'apikey': ANON_KEY,
+                            'Authorization': `Bearer ${ANON_KEY}`,
+                            'Content-Type': 'application/json',
+                            'Prefer': 'return=minimal'
+                        },
+                        body: JSON.stringify(payload)
+                    }).then(response => {
+                        if (response.ok || response.status === 409) { // 409 means already registered, which is fine
+                            target.textContent = 'Successfully Registered!';
+                            target.style.backgroundColor = '#10b981'; // Tailwind Emerald 500
+                            target.style.color = 'white';
+                            target.style.opacity = '1';
+                            inputs.forEach(i => i.value = ''); // clear form
+                            setTimeout(() => {
+                                target.textContent = originalText;
+                                target.style.pointerEvents = 'auto';
+                                target.style.backgroundColor = ''; 
+                                target.style.color = '';
+                            }, 4000);
+                        } else {
+                            throw new Error(`DB Error: ${response.status}`);
+                        }
+                    }).catch(err => {
+                        console.error('Waitlist insertion error', err);
+                        target.textContent = 'Server Error. Try Again.';
+                        setTimeout(() => {
+                            target.textContent = originalText;
+                            target.style.pointerEvents = 'auto';
+                            target.style.opacity = '1';
+                        }, 2000);
+                    });
+                } else {
+                    // Fallback for "Send Message" (Contact Us form) where we need to retain the long paragraphs natively
+                    let subject = text === 'notify me' ? "Pre-Registration from Futurewave.in" : "Inquiry from Futurewave.in";
+                    window.location.href = `mailto:checkin_support@futurewave.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+                }
             }
         });
     </script>
