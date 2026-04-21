@@ -101,202 +101,108 @@
     <script>
         window.__SITE_ID__ = '69923537a592372b8bebdfe6';
 
+        // 1. Legal Footer Injection
         const injectLegalFooter = () => {
             if (!document.getElementById('custom-legal-footer')) {
                 const footer = document.createElement('div');
                 footer.id = 'custom-legal-footer';
                 footer.style.cssText = 'position: relative; width: 100%; background: rgba(15, 23, 42, 0.95); padding: 24px 20px; z-index: 100; display: flex; justify-content: center; align-items: center; gap: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); flex-wrap: wrap; box-sizing: border-box; font-family: Inter, sans-serif; backdrop-filter: blur(5px); margin-top: 40px;';
                 
-                const legalTitle = document.createElement('span');
-                legalTitle.style.cssText = 'color: #94a3b8; font-weight: 600; font-size: 0.9rem;';
-                legalTitle.textContent = 'Legal:';
+                const links = [
+                    { t: 'Legal:', href: null, col: '#94a3b8' },
+                    { t: 'Privacy Policy', href: 'https://drive.google.com/file/d/1facmn0XHT8RXXUIyClodPbqMDcaYP-1h/view?usp=sharing' },
+                    { t: 'Terms of Service', href: 'https://drive.google.com/file/d/15dinH7ljCb8FooHwvIpQXrE9MdouHgz1/view?usp=sharing' },
+                    { t: 'FAQ\'s', href: 'https://docs.google.com/document/d/1SRFPSK-cVkENgcPIJyO5ZUVoVhuf8VEL/edit' }
+                ];
                 
-                const privacyLink = document.createElement('a');
-                privacyLink.href = 'https://drive.google.com/file/d/1facmn0XHT8RXXUIyClodPbqMDcaYP-1h/view?usp=sharing';
-                privacyLink.target = '_blank';
-                privacyLink.style.cssText = 'color: #38bdf8; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.2s;';
-                privacyLink.textContent = 'Privacy Policy';
+                links.forEach(l => {
+                    const el = document.createElement(l.href ? 'a' : 'span');
+                    el.textContent = l.t;
+                    el.style.cssText = `color: ${l.col || '#38bdf8'}; font-weight: ${l.href ? '500' : '600'}; font-size: 0.9rem; text-decoration: none;`;
+                    if (l.href) {
+                        el.href = l.href;
+                        el.target = '_blank';
+                        el.style.transition = 'color 0.2s';
+                    }
+                    footer.appendChild(el);
+                });
                 
-                const termsLink = document.createElement('a');
-                termsLink.href = 'https://drive.google.com/file/d/15dinH7ljCb8FooHwvIpQXrE9MdouHgz1/view?usp=sharing';
-                termsLink.target = '_blank';
-                termsLink.style.cssText = 'color: #38bdf8; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.2s;';
-                termsLink.textContent = 'Terms of Service';
-                
-                const faqLink = document.createElement('a');
-                faqLink.href = 'https://docs.google.com/document/d/1SRFPSK-cVkENgcPIJyO5ZUVoVhuf8VEL/edit?usp=sharing&ouid=106024047286888919119&rtpof=true&sd=true';
-                faqLink.target = '_blank';
-                faqLink.style.cssText = 'color: #38bdf8; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.2s;';
-                faqLink.textContent = 'FAQ\'s';
-
-                footer.appendChild(legalTitle);
-                footer.appendChild(privacyLink);
-                footer.appendChild(termsLink);
-                footer.appendChild(faqLink);
                 document.body.appendChild(footer);
             }
         };
 
-        const applyFixes = () => {
-            document.documentElement.style.setProperty('overflow', 'auto', 'important');
-            document.body.style.setProperty('overflow', 'auto', 'important');
+        // 2. Safely Inject Custom Pricing Overlay using specific targeting
+        const injectPricingOverlay = () => {
+            const pricingSection = document.getElementById('pricing');
+            if (pricingSection && pricingSection.style.opacity !== '0') {
+                pricingSection.style.opacity = '0';
+                pricingSection.style.pointerEvents = 'none';
 
-            // Move Accessibility Widget to Nav Bar
-            try {
-                let getStartedBtn = null;
-                const allNodes = document.querySelectorAll('button, a, div, span');
-                for (let el of allNodes) {
-                    if (el.textContent && el.textContent.trim().toLowerCase() === 'get started') {
-                        getStartedBtn = el.tagName === 'SPAN' || el.tagName === 'DIV' ? (el.closest('button, a') || el) : el;
-                        break;
-                    }
+                let overlay = document.getElementById('marketing-pricing-overlay');
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.id = 'marketing-pricing-overlay';
+                    overlay.innerHTML = window.__CUSTOM_PRICING_HTML__;
+                    overlay.style.position = 'absolute';
+                    overlay.style.width = '100%';
+                    overlay.style.left = '0';
+                    overlay.style.zIndex = '50';
+                    document.body.appendChild(overlay);
                 }
 
-                let cmpWrapperCandidates = document.querySelectorAll('.cmp-accessibility-btn, iframe[src*="accessibility"], [id*="cmp-accessibility"], [class*="cmp-accessibility"], acc-widget, .injected-cmp-widget');
-                let cmpWrapper = Array.from(cmpWrapperCandidates).find(el => el.tagName !== 'SCRIPT');
-
-                if (!cmpWrapper) {
-                    const directChildren = Array.from(document.body.children);
-                    for (const el of directChildren) {
-                        const tag = el.tagName;
-                        if (tag !== 'SCRIPT' && tag !== 'STYLE' && tag !== 'NOSCRIPT' && tag !== 'LINK' && el.id !== 'root' && el.id !== 'custom-legal-footer' && el.id !== 'portal-tab-custom' && el.id !== 'debug-fw-panel') {
-                            const style = window.getComputedStyle(el);
-                            if (style.position === 'fixed' || el.shadowRoot || parseInt(style.zIndex, 10) > 1000) {
-                                if (typeof el.className === 'string' && !el.className.toLowerCase().includes('chat') && !(el.id || '').toLowerCase().includes('chat')) {
-                                    el.classList.add('injected-cmp-widget');
-                                    cmpWrapper = el;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // Inject Custom Pricing Table via Absolute Overlay (Zero DOM interference inside #root)
-                let pricingSection = document.getElementById('pricing');
-                if (pricingSection) {
-                    if (pricingSection.style.opacity !== '0') {
-                        pricingSection.style.opacity = '0';
-                        pricingSection.style.pointerEvents = 'none';
-                    }
-
-                    let overlay = document.getElementById('marketing-pricing-overlay');
-                    if (!overlay) {
-                        overlay = document.createElement('div');
-                        overlay.id = 'marketing-pricing-overlay';
-                        overlay.innerHTML = window.__CUSTOM_PRICING_HTML__;
-                        overlay.style.position = 'absolute';
-                        overlay.style.width = '100%';
-                        overlay.style.left = '0';
-                        overlay.style.zIndex = '50';
-                        document.body.appendChild(overlay);
-                    }
-
-                    // Keep overlay perfectly snapped over the invisible React component
-                    const rect = pricingSection.getBoundingClientRect();
-                    overlay.style.top = (rect.top + window.scrollY) + 'px';
-                    
-                    // Force the hidden React section to maintain the height of our massive custom pricing block
-                    if (overlay.offsetHeight > 0) {
-                        pricingSection.style.height = overlay.offsetHeight + 'px';
-                    }
-                }
-
-                // Try both visual absolute positioning and native placement if needed
-                if (getStartedBtn && cmpWrapper) {
-                    const rect = getStartedBtn.getBoundingClientRect();
-                    
-                    if (rect.width > 0 && rect.top >= 0) {
-                        cmpWrapper.style.setProperty('position', 'fixed', 'important');
-                        cmpWrapper.style.setProperty('bottom', 'auto', 'important');
-                        cmpWrapper.style.setProperty('right', 'auto', 'important');
-                        cmpWrapper.style.setProperty('margin', '0', 'important');
-                        cmpWrapper.style.setProperty('transform', 'none', 'important');
-                        
-                        const cmpWidth = cmpWrapper.offsetWidth || 50; 
-                        const cmpHeight = cmpWrapper.offsetHeight || 50;
-                        const topPos = rect.top + (rect.height / 2) - (cmpHeight / 2);
-                        const leftPos = rect.left - cmpWidth - 16;
-
-                        cmpWrapper.style.setProperty('top', topPos + 'px', 'important');
-                        cmpWrapper.style.setProperty('left', leftPos + 'px', 'important');
-                        cmpWrapper.style.setProperty('z-index', '99999', 'important');
-                        cmpWrapper.style.setProperty('display', 'block', 'important');
-                        cmpWrapper.style.setProperty('visibility', 'visible', 'important');
-                        cmpWrapper.style.setProperty('opacity', '1', 'important');
-                        
-                    }
-                }
-            } catch (e) {
-                console.error('Error repositioning accessibility widget:', e);
+                const rect = pricingSection.getBoundingClientRect();
+                overlay.style.top = (rect.top + window.scrollY) + 'px';
+                if (overlay.offsetHeight > 0) pricingSection.style.height = overlay.offsetHeight + 'px';
             }
-
-            injectLegalFooter();
         };
 
-        // Run immediately and then frequently to combat SPA state changes
-        applyFixes();
-        window.addEventListener('load', applyFixes);
-        setInterval(applyFixes, 800);
+        // Initialize Observer to replace polling
+        const observer = new MutationObserver(() => {
+            if (document.getElementById('pricing')) injectPricingOverlay();
+            injectLegalFooter();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
 
-        // Smooth scroll for Contact Us
+        // On Load guarantees
+        window.addEventListener('load', () => {
+            injectPricingOverlay();
+            injectLegalFooter();
+        });
+
+        // 3. Global Click Interceptor for Smooth Scroll & Forms
         document.addEventListener('click', (e) => {
             const target = e.target.closest('a, button, span, p, div');
             if (!target || !target.textContent) return;
             
             const text = target.textContent.trim().toLowerCase();
-            if (text === 'contact us' || text.includes('contact us')) {
-                // Ensure it's actually acting as a link/button
-                if (window.getComputedStyle(target).cursor === 'pointer' || target.tagName === 'A' || target.tagName === 'BUTTON') {
-                    e.preventDefault();
-                    // Find the Get in Touch section header or the pill above it
-                    const headers = document.querySelectorAll('h1, h2, h3, h4, div, span, p');
-                    for (let h of headers) {
-                        const txt = h.textContent.trim().toLowerCase();
-                        if (txt === 'get in touch' || txt === "we'd love to hear from you") {
-                            // Find the parent section to ensure we don't cut off the top
-                            const section = h.closest('section');
-                            if (section) {
-                                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            } else {
-                                // Fallback to absolute positioning with an offset so the pill isn't cut off
-                                const y = h.getBoundingClientRect().top + window.scrollY - 80;
-                                window.scrollTo({ top: y, behavior: 'smooth' });
-                            }
-                            return; // Stop after scrolling
-                        }
+            const isClickable = window.getComputedStyle(target).cursor === 'pointer' || target.tagName === 'A' || target.tagName === 'BUTTON';
+            
+            if (isClickable && (text === 'contact us' || text === 'get in touch')) {
+                e.preventDefault();
+                const headers = document.querySelectorAll('h1, h2, h3, h4, div, span, p');
+                for (let h of headers) {
+                    const txt = h.textContent.trim().toLowerCase();
+                    if (txt === 'get in touch' || txt === "we'd love to hear from you") {
+                        const section = h.closest('section');
+                        if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        return;
                     }
                 }
             }
 
-            // Handle "Send Message" / "Notify Me" form submission intercept
-            if (text === 'send message' || text.includes('send message') || text === 'notify me' || text.includes('notify me')) {
-                const isClickable = window.getComputedStyle(target).cursor === 'pointer' || target.tagName === 'A' || target.tagName === 'BUTTON';
-                if (isClickable) {
-                    e.preventDefault();
-                    let subject = "Inquiry from Futurewave.in";
-                    let body = "";
-                    
-                    const form = target.closest('form');
-                    if (form) {
-                        const inputs = form.querySelectorAll('input, document, textarea');
-                        inputs.forEach(input => {
-                            const name = input.getAttribute('placeholder') || input.name || 'Field';
-                            body += `${name}: ${input.value}\n\n`;
-                        });
-                    } else {
-                        // Fallback if the inputs aren't in a <form> tag (common in SPA frameworks)
-                        const container = target.closest('div[class*="mt-"]' ) || target.closest('section') || document;
-                        const inputs = container.querySelectorAll('input, textarea');
-                        inputs.forEach(input => {
-                            const name = input.getAttribute('placeholder') || input.name || 'Field';
-                            body += `${name}: ${input.value}\n\n`;
-                        });
-                    }
+            if (isClickable && (text === 'send message' || text === 'notify me')) {
+                e.preventDefault();
+                let subject = text === 'notify me' ? "Pre-Registration from Futurewave.in" : "Inquiry from Futurewave.in";
+                let body = "";
+                
+                const container = target.closest('form') || target.closest('div[class*="mt-"]') || target.closest('section') || document;
+                const inputs = container.querySelectorAll('input, document, textarea');
+                inputs.forEach(input => {
+                    const name = input.getAttribute('placeholder') || input.name || 'Field';
+                    body += `${name}: ${input.value}\n\n`;
+                });
 
-                    const mailtoLink = `mailto:checkin_support@futurewave.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                    window.location.href = mailtoLink;
-                }
+                window.location.href = `mailto:checkin_support@futurewave.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             }
         });
     </script>
