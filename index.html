@@ -231,7 +231,7 @@
                 
                 // Route dynamically based on the button pushed
                 const isContactForm = text === 'send message';
-                const endpoint = `${SUPABASE_URL}/rest/v1/${isContactForm ? 'contact_submissions' : 'premium_plus_waitlist'}`;
+                const endpoint = `${SUPABASE_URL}/${isContactForm ? 'rest/v1/contact_submissions' : 'functions/v1/join-waitlist'}`;
                 
                 let payload = {};
                 if (isContactForm) {
