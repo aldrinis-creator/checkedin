@@ -160,15 +160,26 @@
             const featuresSection = document.getElementById('features');
             if (!featuresSection || document.getElementById('custom-features-injected')) return;
 
-            // Find all div elements in the section that have a class string containing 'grid' or 'flex'.
-            const containers = Array.from(featuresSection.querySelectorAll('div')).filter(el => 
-                el.className && typeof el.className === 'string' && 
-                (el.className.includes('grid') || el.className.includes('flex')) && 
-                el.children.length > 2
-            );
+            // Find the container holding the feature cards by finding the element with the most children
+            let maxChildren = 0;
+            let container = null;
             
-            if (containers.length > 0) {
-                const container = containers[containers.length - 1]; // innermost container with multiple children
+            const allElements = featuresSection.querySelectorAll('div, ul');
+            for (let i = 0; i < allElements.length; i++) {
+                const el = allElements[i];
+                let elementChildrenCount = 0;
+                for (let j = 0; j < el.children.length; j++) {
+                    if (el.children[j].tagName !== 'SVG' && el.children[j].tagName !== 'PATH') {
+                        elementChildrenCount++;
+                    }
+                }
+                if (elementChildrenCount >= maxChildren && elementChildrenCount >= 2) {
+                    maxChildren = elementChildrenCount;
+                    container = el;
+                }
+            }
+            
+            if (container) {
                 const card = container.children[0];
 
                 if (card) {
