@@ -155,11 +155,56 @@
                 overlay.style.top = (rect.top + window.scrollY) + 'px';
                 if (overlay.offsetHeight > 0) pricingSection.style.height = overlay.offsetHeight + 'px';
             }
+        // 3. Inject New Features dynamically
+        const injectNewFeatures = () => {
+            const featuresSection = document.getElementById('features');
+            if (!featuresSection || document.getElementById('custom-features-injected')) return;
+
+            const featureTitles = featuresSection.querySelectorAll('h3');
+            if (featureTitles.length > 0) {
+                // Find the card container
+                let card = featureTitles[0];
+                while (card && card.parentElement && card.parentElement.children.length < 2) {
+                    card = card.parentElement;
+                }
+                
+                if (card && card.parentElement) {
+                    const container = card.parentElement;
+
+                    // 1. Diagnostics Feature
+                    const diagCard = card.cloneNode(true);
+                    diagCard.id = 'custom-features-injected';
+                    const diagTitle = diagCard.querySelector('h3');
+                    if (diagTitle) diagTitle.textContent = 'At-Home Diagnostics';
+                    const diagDesc = diagCard.querySelector('p');
+                    if (diagDesc) diagDesc.textContent = 'Convenient at-home diagnostic services including lab tests and sample collection.';
+                    
+                    const diagSvgContainer = diagCard.querySelector('svg') ? diagCard.querySelector('svg').parentElement : null;
+                    if (diagSvgContainer) {
+                        diagSvgContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flask-conical"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a2 2 0 0 0 1.8 2.95h10.96a2 2 0 0 0 1.8-2.95l-5.068-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg>';
+                    }
+                    container.appendChild(diagCard);
+
+                    // 2. Blood Bank Feature
+                    const bloodCard = card.cloneNode(true);
+                    const bloodTitle = bloodCard.querySelector('h3');
+                    if (bloodTitle) bloodTitle.textContent = 'Local Blood Banks';
+                    const bloodDesc = bloodCard.querySelector('p');
+                    if (bloodDesc) bloodDesc.textContent = 'Search and locate nearby blood banks within 5kms of your location instantly during emergencies.';
+                    
+                    const bloodSvgContainer = bloodCard.querySelector('svg') ? bloodCard.querySelector('svg').parentElement : null;
+                    if (bloodSvgContainer) {
+                        bloodSvgContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-droplet"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>';
+                    }
+                    container.appendChild(bloodCard);
+                }
+            }
         };
 
         // Initialize Observer to replace polling
         const observer = new MutationObserver(() => {
             if (document.getElementById('pricing')) injectPricingOverlay();
+            if (document.getElementById('features')) injectNewFeatures();
             injectLegalFooter();
         });
         observer.observe(document.body, { childList: true, subtree: true });
@@ -167,6 +212,7 @@
         // On Load guarantees
         window.addEventListener('load', () => {
             injectPricingOverlay();
+            injectNewFeatures();
             injectLegalFooter();
         });
 
