@@ -164,15 +164,19 @@
             let maxChildren = 0;
             let container = null;
             
-            const allElements = featuresSection.querySelectorAll('div, ul');
+            // We must check ALL elements, including the featuresSection itself, just in case it is the grid container!
+            const allElements = [featuresSection, ...Array.from(featuresSection.querySelectorAll('*'))];
+            
             for (let i = 0; i < allElements.length; i++) {
                 const el = allElements[i];
                 let elementChildrenCount = 0;
                 for (let j = 0; j < el.children.length; j++) {
+                    // Count actual structural elements (ignore SVGs and headings if they are just titles)
                     if (el.children[j].tagName !== 'SVG' && el.children[j].tagName !== 'PATH') {
                         elementChildrenCount++;
                     }
                 }
+                // If it has at least 2 children and more (or equal) to the current max, it's our container
                 if (elementChildrenCount >= maxChildren && elementChildrenCount >= 2) {
                     maxChildren = elementChildrenCount;
                     container = el;
